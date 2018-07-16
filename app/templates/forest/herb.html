@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+
+{% block app_content %}
+<h1>样地&lt;{{ quadrats[0].plot.plotname }}&gt;草本植被调查数据管理</h1>
+<div class="btn-group">
+	<button type="button" class="btn btn-default dropdown-toggle" id="timeMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		{{time}}
+		<span class="caret"></span>
+	</button>
+	<ul class="dropdown-menu" aria-labelledby="timeMenu">
+		{% for item in times %}
+		<li><a href="herb?plotid={{quadrats[0].plot.id}}&time={{item}}">{{ item }}</a></li>
+		{% endfor %}
+	</ul>
+	<button type="button" id="btn-add" class="btn btn-default" data-toggle="modal" data-target="#addtimeModal">添加</button>
+	{% if time!="" %}
+	<button type="button" id="btn-del" class="btn btn-default" data-toggle="modal" data-target="#deltimeModal">删除</button>
+	{% else %}
+	<button type="button" id="btn-del" class="btn btn-default" data-toggle="modal" data-target="#deltimeModal" disabled>删除</button>
+	{% endif %}
+</div>
+<div class="modal fade" id="addtimeModal" tabindex="-1" role="dialog" aria-labelledby="addtimeModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<form action="" method='POST'>
+				<div class="modal-header">
+					<a class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></a>
+					<h4 class="modal-title" id="myModalLabel">添加调查时间</h4>
+				</div>
+				<div class="modal-body">
+					<input id="plotid" name="plotid" type="text" style="display:none;" value="{{quadrats[0].plot.id}}">
+					<p>
+						<b>日期 </b><input id="time-to-add" name="time" value="" type="text"><span id="addtime-error" style="color:red; display:none;">[日期输入格式错误]</span>
+					</p>
+				</div>
+				<div class="modal-footer">
+					<button id="add-cancel" type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					<input id="add-confirm" type="submit" class="btn btn-primary" value="添加">
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="deltimeModal" tabindex="-1" role="dialog" aria-labelledby="deltimeModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<form action="delherbtime" method='POST'>
+				<div class="modal-header">
+					<a class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></a>
+					<h4 class="modal-title" id="deltimeModalLabel">删除确认</h4>
+				</div>
+				<div class="modal-body">
+					<p class="del-message">
+						确定删除样地&lt;{{ quadrats[0].plot.plotname }}&gt;调查时间&lt;{{ time }}&gt;的所有数据吗？
+						<input id="plotid" name="plotid" type="text" style="display:none;" value="{{quadrats[0].plot.id}}">
+						<input id="time-to-del" name="time" value="{{ time }}" type="text" style="display:none;">
+					</p>
+				</div>
+				<div class="modal-footer">
+					<button id="del-cancel" type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					<input id="del-confirm" type="submit" class="btn btn-primary" value="确定">
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+{% if time!="" %}
+<div id="quadratsamples">
+	{% include 'forest/_quadratsamples.html' %}	
+</div>
+<div class="modal fade" id="addsampleModal" tabindex="-1" role="dialog" aria-labelledby="addsampleModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<a class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></a>
+				<h4 class="modal-title" id="myModalLabel">添加样方数据</h4>
+			</div>
+			<div class="modal-body">
+				<form id='addquadratform'>
+					<p style="display:none;">
+						{{ herbsampleform.id }}
+					</p>
+					<p>
+						{{ herbsampleform.greenstructure.label }}
+						{{ herbsampleform.greenstructure }}
+					</p>
+					<p>
+						{{ herbsampleform.herbcoverage.label }}
+						{{ herbsampleform.herbcoverage }}
+					</p>
+					<p>
+						{{ herbsampleform.arborstructure.label }}
+						{{ herbsampleform.arborstructure }}
+					</p>
+					<p>
+						{{ herbsampleform.sampletype.label }}
+						{{ herbsampleform.sampletype }}
+					</p>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button id="add-cancel" type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				<button id="add-confirm" type="button" class="btn btn-primary" data-dismiss="modal">提交</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="addherbModal" tabindex="-1" role="dialog" aria-labelledby="addherbModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<a class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></a>
+				<h4 class="modal-title" id="addherbModalLabel"></h4>
+			</div>
+			<div class="modal-body">
+				<form id='addherbform'>
+					<p style="display:none;">
+						{{ herbform.id }}
+						{{ herbform.herbsample_id }}
+					</p>
+					<p>
+						{{ herbform.herbtype.label }}
+						{{ herbform.herbtype }}
+					</p>
+					<p>
+						{{ herbform.quantity.label }}
+						{{ herbform.quantity }}
+					</p>
+					<p>
+						{{ herbform.height.label }}
+						{{ herbform.height }}cm
+					</p>
+					<p>
+						{{ herbform.coverage.label }}
+						{{ herbform.coverage }}%
+					</p>
+					<p>
+						{{ herbform.state.label }}
+						{{ herbform.state }}
+					</p>
+					<p>
+						{{ herbform.phenology.label }}
+						{{ herbform.phenology }}
+					</p>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button id="add-cancel" type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				<button id="add-confirm" type="button" class="btn btn-primary" data-dismiss="modal">提交</button>
+			</div>
+		</div>
+	</div>
+</div>
+{% include 'forest/_delmodal.html' %}
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+	{{ super() }}
+	<script type="text/javascript" src="{{ url_for('static',filename='forest/herb.js') }}"></script>
+{% endblock %}

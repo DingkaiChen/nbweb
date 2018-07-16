@@ -1,0 +1,20 @@
+	<table class="table">
+		<tr>
+			<th scope="col">编号</th>
+			<th scope="col">种名</th>
+			<th scope="col">拉丁名</th>
+			<th scope="col">操作</th>
+		</tr>
+		{% for item in arbors %}
+		<tr scope="row">
+			<td><span id="number">{{ item.number }}</span></td>
+			<td><span id='typeid' style="display:none;">{{ item.arbortype.id }}</span><span id='chnname'>{{ item.arbortype.chnname }}</span></td>
+			<td><span id='latinname'>{{ item.arbortype.latinname }}</td>
+			<td><a class="edit" href="#form" >编辑</a> | <a class="del" href="#" data-toggle="modal" data-target="#myModal" data-whatever="{{ item.number }}">删除</a></td>
+		</tr>
+		{% endfor %}
+		<tr scope="row">
+			<td colspan="3"></td>
+			<td><a id='btn-add' href="#form">添加树木</a></td>
+		</tr>
+	</table>

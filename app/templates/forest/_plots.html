@@ -1,0 +1,28 @@
+	<table class="table">
+		<tr>
+			<th scope="col">样地名称</th>
+			<th scope="col">详细地址</th>
+			<th scope="col">经度</th>
+			<th scope="col">纬度</th>
+			<th scope="col">高程</th>
+			<th scope="col">乔木数</th>
+			<th scope="col">样方数</th>
+			<th scope="col">操作</th>
+		</tr>
+		{% for splot in plots %}
+		<tr scope="row">
+			<td><span id="plotid" style="display:none;">{{ splot[0].id }}</span><span id="plotname">{{ splot[0].plotname }}</span></td>
+			<td><span id="address">{{ splot[0].address }}</span></td>
+			<td><span id="londegree">{{ splot[0].londegree }}</span>°<span id="lonminute">{{ splot[0].lonminute }}</span>'<span id="lonsecond">{{ splot[0].lonsecond }}</span>"</td>
+			<td><span id="latdegree">{{ splot[0].latdegree }}</span>°<span id="latminute">{{ splot[0].latminute }}</span>'<span id="latsecond">{{ splot[0].latsecond }}</span>"</td>
+			<td><span id="altitude">{{ splot[0].altitude }}</span></td>
+			<td><a href="arbor/{{ splot[0].id }}">{{ splot[1] }}</a></td>
+			<td><a href="herb?plotid={{ splot[0].id }}">{{ splot[2] }}</a></td>
+			<td><a class="edit" href="#form" >编辑</a> | <a class="del" href="#" data-toggle="modal" data-target="#myModal" data-whatever="{{ splot[0].plotname }}">删除</a></td>
+		</tr>
+		{% endfor %}
+		<tr>
+			<td colspan='7'></td>
+			<td><a id='btn-add' href="#form" >添加样地</a></td>
+		</tr>
+	</table>

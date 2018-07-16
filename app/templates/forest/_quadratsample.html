@@ -1,0 +1,44 @@
+{% if herbsample %}
+<table class='table'>
+	<tr style="background-color:gainsboro;">
+		<td style="font-weight:bold; text-align:right;">样地：</td>
+		<td>{{ herbsample.quadrat.plot.plotname }}</td>
+		<td style="font-weight:bold; text-align:right;">样方号：</td>
+		<td>{{ herbsample.quadrat.number }}</td>
+		<td style="font-weight:bold; text-align:right;">调查时间：</td>
+		<td>{{ herbsample.timestamp }}</td>
+		<td></td><td></td>
+	</tr>
+	<tr>
+		<td style="font-weight:bold; text-align:right;">经度：</td>
+		<td>{{ herbsample.quadrat.plot.londegree }}°{{ herbsample.quadrat.plot.lonminute }}'{{ herbsample.quadrat.plot.lonsecond }}"</td>
+		<td style="font-weight:bold; text-align:right;">纬度：</td>
+		<td>{{ herbsample.quadrat.plot.latdegree }}°{{ herbsample.quadrat.plot.latminute }}'{{ herbsample.quadrat.plot.latsecond }}"</td>
+		<td style="font-weight:bold; text-align:right;">海拔：</td>
+		<td>{{ herbsample.quadrat.plot.altitude }}</td>
+		<td style="font-weight:bold; text-align:right;">详细地址：</td>
+		<td>{{ herbsample.quadrat.plot.address }}</td>
+	</tr>
+	<tr>
+		<td style="font-weight:bold; text-align:right;">绿地结构：</td>
+		<td id="greenstructure">{{ herbsample.greenstructure }}</td>
+		<td style="font-weight:bold; text-align:right;">草本植物总盖度（%）：</td>
+		<td id="herbcoverage">{{ herbsample.herbcoverage }}</td>
+		<td style="font-weight:bold; text-align:right;">样本上方乔灌结构：</td>
+		<td id="arborstructure">{{ herbsample.arborstructure }}</td>
+		<td style="font-weight:bold; text-align:right;">样点类型：</td>
+		<td id="sampletype">{{ herbsample.sampletype }}</td>
+	</tr>
+	<tr>
+		<td colspan="8" style="text-align:right;">
+			<span id='id' style="display:none;">{{ herbsample.id }}</span>
+			<a href="#" id="editquadratsample" data-toggle="modal" data-target="#addsampleModal">编辑</a> | <a href="#" id="delquadrat" data-toggle="modal" data-target="#delModal" data-whatever="{{ herbsample.quadrat.number }}" data-url="delquadratsample">删除</a>
+		</td>
+	</tr>
+</table>
+<div id='herbs'>
+	{% include 'forest/_herbsinsample.html' %}
+</div>
+{% else %}
+<span>所选调查时间内没有数据，</span><a href="#" id="addquadratsample" data-toggle="modal" data-target="#addsampleModal">添加数据？</a>
+{% endif %}

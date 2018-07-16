@@ -1,0 +1,30 @@
+<table class="table">
+	<tr style="background-color:gainsboro;">
+		<th>序号</th>
+		<th>名称</th>
+		<th>拉丁学名</th>
+		<th>株数</th>
+		<th>高度（cm）</th>
+		<th>盖度（%）</th>
+		<th>生活状况</th>
+		<th>物侯</th>
+		<th>操作</th>
+	</tr>
+	{% for herb in herbsample.herbs %}
+	<tr>
+		<td><span id="id" style="display:none;">{{ herb.id }}</span>{{ loop.index }}</td>
+		<td><span id="herbtype" style="display:none;">{{ herb.herbtype.id }}</span>{{ herb.herbtype.chnname }}</td>
+		<td>{{ herb.herbtype.latinname }}</td>
+		<td id="quantity">{{ herb.quantity }}</td>
+		<td id="height">{{ herb.height }}</td>
+		<td id="coverage">{{ herb.coverage }}</td>
+		<td id="state">{{ herb.state }}</td>
+		<td id="phenology">{{ herb.phenology }}</td>
+		<td><a class="edit" href="#"  data-toggle="modal" data-target="#addherbModal">编辑</a> | <a class="del" href="#" data-toggle="modal" data-target="#delModal" data-url="delherbsample" data-whatever="{{ herb.herbtype.chnname }}">删除</a></td>
+	</tr>
+	{% endfor %}
+	<tr>
+		<td colspan="8"></td>
+		<td><a class="add" href="#" data-toggle="modal" data-target="#addherbModal" data-whatever="{{ herbsample.id }}">添加</a></td>
+	</tr>
+</table>

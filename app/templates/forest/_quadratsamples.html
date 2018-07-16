@@ -1,0 +1,17 @@
+<ul id='quadrat-tabs' class="nav nav-tabs" style="margin-top:20px;">
+	{% for q in quadrats %}
+		{% if quadrat==q %}
+	<span id="active-quadrat" style="display:none;">{{ quadrat.id }}</span>
+	<li role="presentation" class="active"><a href="#">{{ q.number }}号样方</a></li>
+		{% else %}
+	<li role="presentation"><a class="inactive" href="#">{{ q.number }}号样方</a><span class="inactive-quadrat" style="display:none;">{{ q.id }}</span></li>
+		{% endif %}
+	{% endfor %}
+</ul>
+<div id="herbsample" style="padding:20px; margin-top=-1px; border-left:1px solid gainsboro; border-right:1px solid gainsboro; border-bottom:1px solid gainsboro;">
+	{% if herbsample %}
+	{% include 'forest/_quadratsample.html' %}	
+	{% else %}
+	<span>所选调查时间内没有数据，</span><a id="addquadratsample" href="#" data-toggle="modal" data-target="#addsampleModal">添加数据？</a>
+	{% endif %}
+</div>

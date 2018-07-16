@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block app_content %}
+	<h1>植被调查样地数据管理</h1>
+	<div id='plots'>
+	{% include 'forest/_plots.html' %}
+	</div>
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<a class="close" data-dismiss="modal" aira-label="Close"><span aria-hidden="true">&times;</span></a>
+					<h4 class="modal-title" id="myModalLabel">删除确认</h4>
+				</div>
+				<div class="modal-body">
+					<p style="display:none;"><span id="del-id"></span><span id="del-name"></span></p>
+					<p id="del-message"></p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					<button id="del-confirm" type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div name="form" id="pnl-form" class="panel panel-default" style="display:none">
+		<div class="panel-heading"></div>
+		<div class="panel-body">
+		<form action="" method="post">
+			{{ form.hidden_tag() }}
+			<p style="display:none;">
+				{{ form.id }}
+			</p>
+			<p>
+				{{ form.plotname.label }}
+				{{ form.plotname(size=32) }}
+				{% for error in form.plotname.errors %}
+				<span class='error-info' style="color:red;">[{{ error }}]</span>
+				{% endfor %}
+			</p>
+			<p>
+				{{ form.address.label }}
+				{{ form.address(size=64) }}
+				{% for error in form.address.errors %}
+				<span class='error-info' style="color:red;">[{{ error }}]</span>
+				{% endfor %}
+			</p>
+			<p>
+				<b>经度</b>
+				{{ form.londegree(size=3) }}°{{ form.lonminute(size=2) }}'{{ form.lonsecond(size=7) }}"
+				{% for error in form.londegree.errors %}
+				<span class='error-info' style="color:red;">[{{ error }}]</span>
+				{% endfor %}
+				{% for error in form.lonminute.errors %}
+				<span class='error-info' style="color:red;">[{{ error }}]</span>
+				{% endfor %}
+				{% for error in form.lonsecond.errors %}
+				<span class='error-info' style="color:red;">[{{ error }}]</span>
+				{% endfor %}
+			</p>
+			<p>
+				<b>纬度</b>
+				{{ form.latdegree(size=3) }}°{{ form.latminute(size=2) }}'{{ form.latsecond(size=7) }}"
+				{% for error in form.latdegree.errors %}
+				<span class='error-info' style="color:red;">[{{ error }}]</span>
+				{% endfor %}
+				{% for error in form.latminute.errors %}
+				<span class='error-info' style="color:red;">[{{ error }}]</span>
+				{% endfor %}
+				{% for error in form.latsecond.errors %}
+				<span class='error-info' style="color:red;">[{{ error }}]</span>
+				{% endfor %}
+			</p>
+			<p>
+				<b>高程</b>
+				{{ form.altitude(size=4) }}
+				{% for error in form.altitude.errors %}
+				<span class='error-info' style="color:red;">[{{ error }}]</span>
+				{% endfor %}
+			</p>
+			<p>
+				{{ form.submit() }}  <input id="btn-cancel" type="button" value="取消"/>
+			</p>
+		</form>
+	</div>
+	</div>
+{% endblock %}
+
+{% block scripts %}
+	{{ super() }}
+	
+	<script type=text/javascript src="{{ url_for('static',filename='forest/plot.js') }}"></script>
+{% endblock %}

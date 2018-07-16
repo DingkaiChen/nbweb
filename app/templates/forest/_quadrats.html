@@ -1,0 +1,18 @@
+	<table class="table">
+		<tr>
+			<th scope="col">样地名称</th>
+			<th scope="col">样方编号</th>
+			<th scope="col">操作</th>
+		</tr>
+		{% for item in quadrats %}
+		<tr scope="row">
+			<td><span id="plot">{{ item.plot.plotname }}</span></td>
+			<td><span id='number'>{{ item.number }}</span></td>
+			<td><a class="del" href="#" data-toggle="modal" data-target="#myModal" data-whatever="{{ item.id }}">删除</a></td>
+		</tr>
+		{% endfor %}
+		<tr scope="row">
+			<td colspan="2"></td>
+			<td><a id='btn-add' href="#form">添加样方</a></td>
+		</tr>
+	</table>

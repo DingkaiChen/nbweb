@@ -1,0 +1,22 @@
+<div class="modal fade" id="addtimeModal" tabindex="-1" role="dialog" aria-labelledby="addtimeModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<form action="addyear" method='POST'>
+				<div class="modal-header">
+					<a class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></a>
+					<h4 class="modal-title" id="myModalLabel">添加监测年份</h4>
+				</div>
+				<div class="modal-body">
+					<p>
+						<b>年份 </b><input id="time-to-add" name="year" value="" type="text"><span id="addtime-error" style="color:red; display:none;">[年份输入格式错误]</span>
+					</p>
+				</div>
+				<div class="modal-footer">
+					<button id="add-cancel" type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					<input id="add-confirm" type="submit" class="btn btn-primary" value="添加">
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+

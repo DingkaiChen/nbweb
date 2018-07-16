@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+<div id="viewDiv" style="padding:0; margin:0; height:720px; width:100%;">
+	<div class="WaterPlots" hidden="hidden">
+	{% for item in plots["water"] %}
+		<div>
+			<p class="lon">{{ item["lon"] }}</p>
+			<p class="lat">{{ item["lat"] }}</p>
+		</div>
+	{% endfor %}
+	</div>
+	<div class="VegiPlots" hidden="hidden">
+	{% for item in plots["forest"] %}
+		<div>
+			<p class="lon">{{ item["lon"] }}</p>
+			<p class="lat">{{ item["lat"] }}</p>
+		</div>
+	{% endfor %}
+	</div>
+	<div class="SoilPlots" hidden="hidden">
+	{% for item in plots["soil"] %}
+		<div>
+			<p class="lon">{{ item["lon"] }}</p>
+			<p class="lat">{{ item["lat"] }}</p>
+		</div>
+	{% endfor %}
+	</div>
+	<div class="AirPlots" hidden="hidden">
+	{% for item in plots["air"] %}
+		<div>
+			<p class="lon">{{ item["lon"] }}</p>
+			<p class="lat">{{ item["lat"] }}</p>
+		</div>
+	{% endfor %}
+	</div>
+</div>
+{% endblock %}
+
+{% block head %}
+	{{ super() }}
+	<link rel="stylesheet" href="https://js.arcgis.com/4.7/esri/css/main.css"/>
+{% endblock %}
+
+{% block scripts %}
+	{{ super() }}
+	<script type="text/javascript" src="https://js.arcgis.com/4.7/"></script>
+	<script type="text/javascript" src="{{ url_for('static',filename='map/map.js') }}"></script>
+{% endblock %}

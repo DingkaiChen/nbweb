@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block app_content %}
+<h1>样地 &lt;{{ plot.plotname }}&gt; 乔木调查数据管理</h1>
+<div class="dropdown">
+	<button type="button" class="btn btn-default dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+		{{time}}
+		<span class="caret"></span>
+	</button>
+	<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+		{% for item in times %}
+		<li><a href="arborsample?plotid={{plot.id}}&time={{item}}">{{ item }}</a></li>
+		{% endfor %}
+	</ul>
+</div>
+<div id='arborsamples'>
+	{% include 'forest/_arborsamples.html' %}
+</div>
+<div name="form" id="pnl-form" class="panel panel-default" style="display:none;">
+	<div class="panel-heading"></div>
+	<div class="panel-body">
+		<form action="" method="post">
+			{{ form.hidden_tag() }}
+			<p style="display:none;">
+				{{ form.id }}
+			</p>
+			<p>
+				{{ form.timestamp.label }}
+				{{ form.timestamp }}
+				{% for error in form.timestamp.errors %}
+				<span class='error-info' style="color:red;">[{{ error }}]</span>
+				{% endfor %}
+			</p>
+			<p>
+				{{ form.arbor.label }}
+				{{ form.arbor }}
+				{% for error in form.arbor.errors %}
+				<span class='error-info' style="color:red;">[{{ error }}]</span>
+				{% endfor %}
+			</p>
+			<p>
+				<b>冠幅</b>
+				{{ form.canopyside1(size=8) }} * {{ form.canopyside2(size=8) }}
+				{% for error in form.canopyside1.errors %}
+				<span class='error-info' style="color:red;">[{{ error }}]</span>
+				{% endfor %}
+				{% for error in form.canopyside2.errors %}
+				<span class='error-info' style="color:red;">[{{ error }}]</span>
+				{% endfor %}
+			</p>
+			<p>
+				{{ form.diameter.label }}
+				{{ form.diameter(size=8) }}
+				{% for error in form.diameter.errors %}
+				<span class='error-info' style="color:red;">[{{ error }}]</span>
+				{% endfor %}
+			</p>
+			<p>
+				{{ form.height.label }}
+				{{ form.height(size=8) }}
+				{% for error in form.height.errors %}
+				<span class='error-info' style="color:red;">[{{ error }}]</span>
+				{% endfor %}
+			</p>
+			<p>
+				{{ form.note.label }}
+				{{ form.note }}
+				{% for error in form.note.errors %}
+				<span class='error-info' style="color:red;">[{{ error }}]</span>
+				{% endfor %}
+			</p>
+			<p>
+				{{ form.submit() }}  <input id="btn-cancel" type="button" value="取消"/>
+			</p>
+		</form>
+	</div>
+</div>
+{% include 'forest/_delmodal.html' %}
+{% endblock %}
+
+{% block scripts %}
+	{{ super() }}
+	<script type=text/javascript src="{{ url_for('static',filename='forest/arborsample.js') }}"></script>
+{% endblock %}

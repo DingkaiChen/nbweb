@@ -1,0 +1,21 @@
+<div class="modal fade" id="delModal" tabindex="-1" role="dialog" aria-labelledby="delModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<a class="close" data-dismiss="modal" aira-label="Close"><span aria-hidden="true">&times;</span></a>
+				<h4 class="modal-title" id="delModalLabel">删除确认</h4>
+			</div>
+			<div class="modal-body">
+				<p style="display:none;">
+					<span id="del-object"></span>
+					<span id="del-id"></span>
+				</p>
+				<p id="del-message"></p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				<button id="del-confirm" type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+			</div>
+		</div>
+	</div>
+</div>

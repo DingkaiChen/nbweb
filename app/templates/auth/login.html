@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block app_content %}
+	<h1>用户登录</h1>
+	<form action="" method="post">
+		{{ form.hidden_tag() }}
+		<p>
+			{{ form.username.label }}<br>
+			{{ form.username(size=32) }}<br>
+			{% for error in form.username.errors %}
+			<span style='color:red; '>[{{ error }}]</span>
+			{% endfor %}
+		</p>
+		<p>
+			{{ form.password.label }}<br>
+			{{ form.password(size=32) }}<br>
+			{% for error in form.password.errors %}
+			<span style='color:red; '>[{{ error }}]</span>
+			{% endfor %}
+		</p>
+		<p>{{ form.remember_me() }} {{form.remember_me.label }}</p>
+		<p>{{ form.submit() }}</p>
+	</form>
+	<p>没有帐号？ <a href="{{ url_for('auth.register') }}">点击注册</a></p>
+	<p>忘记密码？ <a href="{{ url_for('auth.reset_password_request') }}">点击重置密码</a></p>
+		
+{% endblock %}
+

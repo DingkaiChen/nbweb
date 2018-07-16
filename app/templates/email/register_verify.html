@@ -1,0 +1,19 @@
+<p>尊敬的 {{ user.name }} 先生/女士,</p>
+<p>
+	您已通过<b>宁波城市环境观测网</b>进行用户注册，请
+	<a href="{{ url_for('auth.register_verify', token=token, _external=True) }}">
+		点击这里
+	</a>
+	进行邮箱地址认证。
+</p>
+<p>或者，您也可以复制下列网址到您的浏览器地址栏进行邮箱地址认证：</p>
+<p>{{ url_for('auth.register_verify', token=token, _external=True) }}</p>
+<p>如果您未进行过宁波城市环境观测网的注册，请忽略本邮件。</p>
+<p>此致 敬礼！</p>
+<p>
+	<em>
+		数字城市环境网络研究中心<br>
+		中国科学院城市环境研究所
+	</em>
+</p>
+

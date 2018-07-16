@@ -1,0 +1,23 @@
+<div class="modal fade" id="deltimeModal" tabindex="-1" role="dialog" aria-labelledby="deltimeModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<form action="delyear" method='POST'>
+				<div class="modal-header">
+					<a class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></a>
+					<h4 class="modal-title" id="deltimeModalLabel">删除确认</h4>
+				</div>
+				<div class="modal-body">
+					<p class="del-message">
+						确定删除<b>{{year}}年</b>的所有数据吗？
+						<input id="year-to-del" name="year" value="{{ year }}" type="text" style="display:none;">
+					</p>
+				</div>
+				<div class="modal-footer">
+					<button id="del-cancel" type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					<input id="del-confirm" type="submit" class="btn btn-primary" value="确定">
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+

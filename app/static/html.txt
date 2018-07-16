@@ -1,0 +1,72 @@
+@model NingboIOT.Models.MapViewModel
+
+@{
+    ViewBag.Title = "ึ๗าณ";
+    ViewBag.Home = "active";
+}
+
+<div id="viewDiv" style="padding:0;margin:0;height:540px;width:1200px;">
+    <div class="WaterPlots" hidden="hidden">
+        @foreach (var item in Model.WaterPlots)
+        {
+            <div>
+                <p class="lon">@item.Lon</p>
+                <p class="lat">@item.Lat</p>
+            </div>
+        }
+    </div>
+    <div class="WaterPlusPlots" hidden="hidden">
+        @foreach (var item in Model.WaterPlusPlots)
+        {
+            <div>
+                <p class="lon">@item.Lon</p>
+                <p class="lat">@item.Lat</p>
+            </div>
+        }
+    </div>
+    <div class="VegiPlots" hidden="hidden">
+        @foreach (var item in Model.VegiPlots)
+        {
+            <div>
+                <p class="lon">@item.Lon</p>
+                <p class="lat">@item.Lat</p>
+            </div>
+        }
+    </div>
+    <div class="SoilPlots" hidden="hidden">
+        @foreach (var item in Model.SoilPlots)
+        {
+            <div>
+                <p class="lon">@item.Lon</p>
+                <p class="lat">@item.Lat</p>
+            </div>
+        }
+    </div>
+    <div class="AirRoutinePlots" hidden="hidden">
+        @foreach (var item in Model.AirRoutinePlots)
+        {
+            <div>
+                <p class="lon">@item.Lon</p>
+                <p class="lat">@item.Lat</p>
+            </div>
+        }
+    </div>
+    <div class="AirVOCPlots" hidden="hidden">
+        @foreach (var item in Model.AirVOCPlots)
+        {
+            <div>
+                <p class="lon">@item.Lon</p>
+                <p class="lat">@item.Lat</p>
+            </div>
+        }
+    </div>
+</div>
+
+@section Css{
+    <link href="https://js.arcgis.com/4.3/esri/css/main.css" rel="stylesheet" type="text/css" />
+}
+
+@section Scripts{
+    <script src="https://js.arcgis.com/4.3/"></script>
+    <script src="~/Scripts/map.js"></script>
+}

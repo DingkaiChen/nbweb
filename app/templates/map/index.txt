@@ -1,0 +1,207 @@
+
+@{
+    ViewBag.Title = "Ê×Ò³";
+    ViewBag.Home = "active";
+}
+
+<div id="viewDiv" style="padding:0;margin:0;height:540px;width:1200px;">
+    <div class="WaterPlots" hidden="hidden">
+        <div>
+            <p class="lon">29.82547</p>
+            <p class="lat">122.0099</p>
+        </div>
+        <div>
+            <p class="lon">29.81261</p>
+            <p class="lat">121.9783</p>
+        </div>
+        <div>
+            <p class="lon">29.75697</p>
+            <p class="lat">121.9249</p>
+        </div>
+        <div>
+            <p class="lon">29.75458</p>
+            <p class="lat">121.9183</p>
+        </div>
+    </div>
+    <div class="VegiPlots" hidden="hidden">
+        <div>
+            <p class="lon">29.8792</p>
+            <p class="lat">121.8974</p>
+        </div>
+        <div>
+            <p class="lon">29.86134</p>
+            <p class="lat">121.7077</p>
+        </div>
+        <div>
+            <p class="lon">29.74277</p>
+            <p class="lat">121.5374</p>
+        </div>
+        <div>
+            <p class="lon">29.69158</p>
+            <p class="lat">121.4799</p>
+        </div>
+        <div>
+            <p class="lon">29.88381</p>
+            <p class="lat">121.6737</p>
+        </div>
+        <div>
+            <p class="lon">29.64213</p>
+            <p class="lat">121.5293</p>
+        </div>
+        <div>
+            <p class="lon">29.7525</p>
+            <p class="lat">121.391</p>
+        </div>
+        <div>
+            <p class="lon">29.67599</p>
+            <p class="lat">121.3235</p>
+        </div>
+        <div>
+            <p class="lon">29.82628</p>
+            <p class="lat">121.2916</p>
+        </div>
+        <div>
+            <p class="lon">29.79134</p>
+            <p class="lat">121.3666</p>
+        </div>
+    </div>
+    <div class="SoilPlots" hidden="hidden">
+        <div>
+            <p class="lon">29.954167</p>
+            <p class="lat">121.751667</p>
+        </div>
+        <div>
+            <p class="lon">29.956667</p>
+            <p class="lat">121.789722</p>
+        </div>
+        <div>
+            <p class="lon">29.938611</p>
+            <p class="lat">121.706667</p>
+        </div>
+        <div>
+            <p class="lon">29.940556</p>
+            <p class="lat">121.772222</p>
+        </div>
+        <div>
+            <p class="lon">29.934167</p>
+            <p class="lat">121.815556</p>
+        </div>
+        <div>
+            <p class="lon">29.943056</p>
+            <p class="lat">121.955833</p>
+        </div>
+        <div>
+            <p class="lon">29.920833</p>
+            <p class="lat">121.728611</p>
+        </div>
+        <div>
+            <p class="lon">29.921667</p>
+            <p class="lat">121.787222</p>
+        </div>
+        <div>
+            <p class="lon">29.921944</p>
+            <p class="lat">121.833056</p>
+        </div>
+        <div>
+            <p class="lon">29.920833</p>
+            <p class="lat">121.872222</p>
+        </div>
+        <div>
+            <p class="lon">29.921389</p>
+            <p class="lat">121.901111</p>
+        </div>
+        <div>
+            <p class="lon">29.925</p>
+            <p class="lat">121.93</p>
+        </div>
+        <div>
+            <p class="lon">29.925</p>
+            <p class="lat">121.932222</p>
+        </div>
+        <div>
+            <p class="lon">29.925</p>
+            <p class="lat">121.953333</p>
+        </div>
+        <div>
+            <p class="lon">29.902222</p>
+            <p class="lat">121.666111</p>
+        </div>
+        <div>
+            <p class="lon">29.903333</p>
+            <p class="lat">121.708611</p>
+        </div>
+        <div>
+            <p class="lon">29.901667</p>
+            <p class="lat">121.751111</p>
+        </div>
+        <div>
+            <p class="lon">29.903056</p>
+            <p class="lat">121.791389</p>
+        </div>
+        <div>
+            <p class="lon">29.903889</p>
+            <p class="lat">121.833333</p>
+        </div>
+        <div>
+            <p class="lon">29.904167</p>
+            <p class="lat">121.853056</p>
+        </div>
+        <div>
+            <p class="lon">29.905556</p>
+            <p class="lat">121.868611</p>
+        </div>
+        <div>
+            <p class="lon">29.906944</p>
+            <p class="lat">121.932222</p>
+        </div>
+        <div>
+            <p class="lon">29.904722</p>
+            <p class="lat">121.950278</p>
+        </div>
+        <div>
+            <p class="lon">29.902778</p>
+            <p class="lat">121.992222</p>
+        </div>
+        <div>
+            <p class="lon">29.884444</p>
+            <p class="lat">121.687778</p>
+        </div>
+        <div>
+            <p class="lon">29.885278</p>
+            <p class="lat">121.707778</p>
+        </div>
+        <div>
+            <p class="lon">29.884722</p>
+            <p class="lat">121.7275</p>
+        </div>
+        <div>
+            <p class="lon">29.885</p>
+            <p class="lat">121.750278</p>
+        </div>
+        <div>
+            <p class="lon">29.885556</p>
+            <p class="lat">121.770833</p>
+        </div>
+        <div>
+            <p class="lon">29.885556</p>
+            <p class="lat">121.793611</p>
+        </div>
+        <div>
+            <p class="lon">29.886389</p>
+            <p class="lat">121.833611</p>
+        </div>
+        <div>
+            <p class="lon">29.885833</p>
+            <p class="lat">121.894722</p>
+        </div>
+    </div>
+</div>
+
+@section Css{
+    <link href="https://js.arcgis.com/4.1/esri/css/main.css" rel="stylesheet" type="text/css" />
+}
+
+@section Scripts{
+    <script src="https://js.arcgis.com/4.1/"></script>
+    <script src="~/Scripts/map.js"></script>
+}

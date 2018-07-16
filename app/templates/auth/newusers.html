@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block app_content %}
+<div id="alert" style="display:none;" role="alert"></div>
+<h1>新用户审核</h1>
+<div id='newusers' class="panel panel-default">
+	{% include 'auth/_newusers.html' %}
+</div>
+{% include 'auth/_acceptmodal.html' %}
+{% include 'auth/_rejectmodal.html' %}
+{% endblock %}
+
+{% block scripts %}
+	{{ super() }}
+
+	<script stype=text/javascript src="{{ url_for('static',filename='auth/newusers.js') }}"></script>
+{% endblock %}

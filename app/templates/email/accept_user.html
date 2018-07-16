@@ -1,0 +1,18 @@
+<p>尊敬的 {{ user.name }} 先生/女士,</p>
+<p>
+	您在<b>宁波城市环境观测网</b>注册的用户（用户名：{{ user.username }}）已通过审核，请
+	<a href="{{ url_for('auth.login',_external=True) }}">
+		点击这里
+	</a>
+	登录。
+</p>
+<p>或者，您也可以复制下列网址到您的浏览器地址栏进行登录：</p>
+<p>{{ url_for('auth.login',_external=True) }}</p>
+<p>此致 敬礼！</p>
+<p>
+	<em>
+		数字城市环境网络研究中心<br>
+		中国科学院城市环境研究所
+	</em>
+</p>
+

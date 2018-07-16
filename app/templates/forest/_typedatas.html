@@ -1,0 +1,28 @@
+	<table class="table">
+		<tr>
+			<th scope="col">序号</th>
+			<th scope="col">种名</th>
+			<th scope="col">拉丁名</th>
+			<th scope="col">图片</th>
+			<th scope="col">操作</th>
+		</tr>
+		{% for item in typedatas %}
+		<tr scope="row">
+			<td>{{ loop.index }}<span id="typeid" style="display:none;">{{ item.id }}</span></td>
+			<td><span id='chnname'>{{ item.chnname }}</span></td>
+			<td><span id='latinname'>{{ item.latinname }}</td>
+			<td>
+				{% if item.imgurl!="" %}
+				<a id='imgurl' href="#" data-toggle="modal" data-target="#imgModal" data-whatever="{{ item.imgurl }}">查看</a>
+				{% else %}
+				<span id='imgurl' data-whatever="{{ item.imgurl }}">查看</span>
+				{% endif %}
+			</td>
+			<td><a class="edit" href="#form" >编辑</a> | <a class="del" href="#" data-toggle="modal" data-target="#delModal" data-whatever="{{ item.chnname }}">删除</a></td>
+		</tr>
+		{% endfor %}
+		<tr scope="row">
+			<td colspan="4"></td>
+			<td><a id='btn-add' href="#form">添加</a></td>
+		</tr>
+	</table>

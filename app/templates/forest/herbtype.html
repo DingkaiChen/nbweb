@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block app_content %}
+<h1>草本植物种类管理</h1>
+<div id="herbtypes">
+	{% include 'forest/_typedatas.html' %}
+</div>
+<div class="modal fade" id="imgModal" tabindex="-2" role="dialog" aria-labelledby="imgModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<a class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></a>
+			</div>
+			<div class="modal-body">
+				<img id="showimg" style="width:100%;" src="">
+			</div>
+		</div>
+	</div>
+</div>
+<div name="form" id="pnl-form" class="panel panel-default" style="display:none;">
+	<div class="panel-heading"></div>
+	<div class="panel-body">
+		<form action="" method="post">
+			{{ form.hidden_tag() }}
+			<p style="display:none;">
+				{{ form.id }}
+			</p>
+			<p>
+				{{ form.chnname.label }}
+				{{ form.chnname }}
+				{% for error in form.chnname.errors %}
+				<span class='error-info' style="color:red;">[{{ error }}]</span>
+				{% endfor %}
+			</p>
+			<p>
+				{{ form.latinname.label }}
+				{{ form.latinname }}
+				{% for error in form.latinname.errors %}
+				<span class='error-info' style="color:red;">[{{ error }}]</span>
+				{% endfor %}
+			</p>
+			<p>
+				{{ form.imgurl.label }}
+				<input type="file" id="file1" name="file1"/>
+				<input type="button" id="btn-upload" value="上传"/>
+				<br>
+				<img id="img1" alt="尚未加载图片" src=""/>
+				<br>
+				{{ form.imgurl }}
+				{% for error in form.imgurl.errors %}
+				<span class='error-info' style="color:red;">[{{ error }}]</span>
+				{% endfor %}
+			</p>
+			<p>
+				{{ form.submit() }}  <input id="btn-cancel" type="button" value="取消"/>
+			</p>
+		</form>
+	</div>
+</div>
+{% include 'forest/_delmodal.html' %}
+{% endblock %}
+
+{% block scripts %}
+	{{ super() }}
+	<script type="text/javascript" src="{{ url_for('static',filename='ajaxfileupload.js')}}"></script>
+	<script type="text/javascript" src="{{ url_for('static',filename='forest/herbtype.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block app_content %}
+	<h1>常规空气质量监测数据</h1>
+	<div>
+		<table class="table">
+			<tr>
+				<th scope="col">监测点</th>
+				<th scope="col">监测时间</th>
+				<th scope="col">NO2</th>
+				<th scope="col">CO</th>
+				<th scope="col">SO2</th>
+				<th scope="col">O3</th>
+				<th scope="col">PM10</th>
+				<th scope="col">PM2.5</th>
+			<tr>
+			{% for data in datas %}
+			<tr scope="row">
+				<td>{{ data.plot.plotname }}</td>
+				<td>{{ data.timestamp }}</td>
+				<td>{{ data.no2 }}</td>
+				<td>{{ data.co }}</td>
+				<td>{{ data.so2 }}</td>
+				<td>{{ data.o3 }}</td>
+				<td>{{ data.pm10 }}</td>
+				<td>{{ data.pm25 }}</td>
+			</tr>
+			{% endfor %}
+		</table>
+		{% if prev_url %}
+		<a href="{{ prev_url }}">上一页</a>
+		{% endif %}
+		{% if next_url %}
+		<a href="{{ next_url }}">下一页</a>
+		{% endif %}
+	</div>
+	<br>
+	<div>
+		<a href="{{url_for('air.vocdata')}}">挥发性有机物监测数据</a> | 
+		<a href="{{url_for('air.upload')}}">上传数据</a> | 
+		<a href="{{url_for('air.airplots')}}">监测点位管理</a> | 
+		<a href="{{url_for('air.clearairdata')}}">清空常规空气质量数据</a> | 
+		<a href="{{url_for('air.clearvocdata')}}">清空挥发性有机物数据</a> | 
+		<a href="{{url_for('air.clearvoctype')}}">清空VOC类型数据</a>
+	</div>
+{% endblock %}
