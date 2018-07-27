@@ -1,6 +1,6 @@
 from app import db
 from app.auth import bp
-from app.auth.forms import LoginForm,RegistrationForm,ResetPasswordRequestForm,ResetPasswordForm
+from app.auth.forms import LoginForm,RegistrationForm,ResetPasswordRequestForm,ResetPasswordForm,UsersForm
 from app.models import User,Role,Register
 from app.email import send_password_reset_email,send_register_verify_email,send_reject_email,send_accept_email
 from flask import render_template,flash,redirect,url_for,request
@@ -139,4 +139,34 @@ def rejectnewuser():
 		newusers=Register.query.filter_by(verified=1).all()
 		return render_template('auth/_newusers.html',newusers=newusers)
 		
-		
+@bp.route('/users',methods=['GET','POST'])
+@login_required
+def users():
+	if not current_user.check_roles(['admin']):
+		flash('非系统管理员用户无权访问该页面')
+		return redirect(url_for('main.index'))
+	form=UsersForm()
+	form.role.choices=[(item.id,item.description) for item in Role.query.all()]
+	if request.method=='POST' and form.action.data:
+		if form.action.data==1:#action: '1' for EDIT, '2' for 'DELETE'
+			user=User.query.filter_by(id=form.id.data).first()
+			if user is None:
+				flash('找不到指定的用户，编辑失败.')
+			else:
+				role=Role.query.filter_by(id=form.role.data).first()
+				if role is None:
+					flash('找不到指定的角色，编辑失败.')
+				else:
+					user.roles[0]=role
+					db.session.commit()
+					flash('用户 <{}> 的角色已更改为（{}）.'.format(user.username,role.description))
+		else:
+			user=User.query.filter_by(id=form.id.data).first()
+			if user is None:
+				flash('找不到指定的用户，编辑失败.')
+			else:
+				db.session.delete(user)
+				db.session.commit()
+				flash('用户 <{}> 账户已删除.'.format(user.username))
+	users=User.query.all()
+	return render_template('auth/users.html',title="用户账户管理",users=users,form=form)		

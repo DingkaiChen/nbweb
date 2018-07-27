@@ -2,24 +2,10 @@
 
 {% block app_content %}
 	<h1>土壤调查样地数据管理</h1>
-	<div id='plots'>
+	<div id='plots' class="panel panel-success">
 	{% include 'soil/_plots.html' %}
 	</div>
-	<div name='upload' id="uploadform" class="panel panel-default" style="display:none;">
-		<div class="panel-heading">数据上传</div>
-		<div class="panel-body">
-			<form action="" method=post enctype=multipart/form-data>
-				<p>
-					{{ form.action }}
-					<input type=file name=file>
-					<input type=submit value="上传"> <input id='upload-cancel' type='button' value='取消'> <button type="button" class="btn btn-default btn-sm" title="请严格按照下载模板格式上传EXCEL数据。其中，区域类型只包含2类：“北仑城区网格化采样”和“城郊乡梯度流域采样”。“样点名称”如果已存在，则对应一条数据将不会被添加，其余数据可照常添加。" data-toggle="tooltip" data-placement="top">上传说明</button>
-				</p>
-				<p>
-					<a target="_blank" href="{{ url_for('soil.download_plotexample') }}">下载模板文件</a>
-				</p>
-			</form>
-		</div>
-	</div>
+	{% include 'soil/_uploadplotmodal.html' %}
 	<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">

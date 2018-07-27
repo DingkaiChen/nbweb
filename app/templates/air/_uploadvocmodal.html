@@ -1,0 +1,23 @@
+<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<a class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></a>
+				<h4 class="modal-title" id="uploadModalLabel">数据上传</h4>
+			</div>
+			<div class="modal-body">
+				<form action="upload" method='post' enctype='multipart/form-data'>
+					<p>
+						<input type='file' name='file'>
+						<hr>
+						<input type='submit' value="上传"> <input id='upload-cancel' type='button' data-dismiss="modal" value='取消'>
+						<button id="uploadtip" type="button" class="btn btn-default btn-sm" title='此处可同时上传常规6参数空气质量监测数据和VOC数据。数据上传前请确定监测点位已添加完毕。上传文件中新增的VOC指标将直接新增到系统中。请严格按照下载模板格式上传EXCEL数据。对应数据如果已存在，之前的数据将被新的数据覆盖。常规空气质量数据请填写在同一张Sheet中，Sheet名必须包含“常规空气质量”字样。VOC数据每一个月数据单独存在一张Sheet中，sheet名必须存储为形如“挥发性有机物（18年6月）”的字样。建议直接在模板中填写数据。常规空气质量数据前2行请不要修改，时间格式参照模板，CO数据可填写小数，其余5个参数必须填写整数，数据可为空。监测地点名称需与系统中的名称一致，具体可查看系统。VOC数据首行（标题行）为监测地点，首列为VOC指标名。VOC数据可填写小数，可为空。' data-toggle="tooltip" data-placement="top" style="background-color:tranparent;">上传说明</button>
+					</p>
+					<p>
+						<a id="downloadtemplate" target="_blank" href="{{ url_for('air.download_vocexample') }}">下载模板文件</a>
+					</p>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

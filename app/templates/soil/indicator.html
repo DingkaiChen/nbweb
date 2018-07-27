@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block app_content %}
+	<h1>土壤监测指标项管理</h1>
+	<div id='indicators' class="panel panel-success">
+	{% include 'soil/_indicators.html' %}
+	</div>
+	<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<form action="" method="post">
+					{{ form.hidden_tag() }}
+					<div class="modal-header">
+						<a class="close" data-dismiss="modal" aira-label="Close"><span aria-hidden="true">&times;</span></a>
+						<h4 class="modal-title" id="editModalLabel">编辑指标项</h4>
+					</div>
+					<div class="modal-body">
+						<p style="display:none;">
+							{{ form.id }}
+							{{ form.action }}
+						</p>
+						<p class="form-validgroup">
+							<span id="edit-name"></span>
+						</p>
+						<p>
+							{{ form.symbol.label }}
+							{{ form.symbol }}
+						</p>
+						<p>
+							{{ form.unit.label }}
+							{{ form.unit }}
+						</p>
+						<p>
+							{{ form.indicatortype.label }}
+							{{ form.indicatortype }}
+						</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default form-clearerrorinfo" data-dismiss="modal">取消</button>  {{ form.submit() }}
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="delModal" tabindex="-2" role="dialog" aria-labelledby="delModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<form action="" method="post">
+					{{ form.hidden_tag() }}
+					<div class="modal-header">
+						<a class="close" data-dismiss="modal" aira-label="Close"><span aria-hidden="true">&times;</span></a>
+						<h4 class="modal-title" id="delModalLabel">指标项删除确认</h4>
+					</div>
+					<div class="modal-body">
+						<p style="display:none;">
+							{{ form.id }}
+							{{ form.action }}
+						</p>
+						<p id="del-message"></p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>  {{ form.submit() }}
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block scripts %}
+	{{ super() }}
+	
+	<script type=text/javascript src="{{ url_for('static',filename='soil/indicator.js') }}"></script>
+	<script type=text/javascript src="{{ url_for('static',filename='formcheck.js') }}"></script>
+{% endblock %}

@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, IntegerField
 from wtforms.validators import InputRequired,DataRequired,ValidationError,Email,EqualTo
 from app.models import User,Register
 
@@ -44,3 +44,9 @@ class ResetPasswordForm(FlaskForm):
 	password=PasswordField('新密码',validators=[DataRequired()])
 	password2=PasswordField('确认新密码',validators=[DataRequired(),EqualTo('password')])
 	submit=SubmitField('更改密码')
+
+class UsersForm(FlaskForm):
+	id=IntegerField('ID')
+	action=IntegerField('action')
+	role=SelectField('角色',coerce=int,validators=[DataRequired()])
+	submit=SubmitField('确定')

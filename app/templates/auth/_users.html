@@ -1,0 +1,31 @@
+<div class="panel-heading">
+	<h5 class="panel-title">用户账户</h5>
+</div>
+<table class="table">
+	<tr>
+		<th scope="col">序号</th>
+		<th scope="col">用户名</th>
+		<th scope="col">Email</th>
+		<th scope="col">姓名</th>
+		<th scope="col">联系电话</th>
+		<th scope="col">角色</th>
+		<th scope="col">操作</th>
+	</tr>
+	{% for item in users %}
+	<tr scope="row">
+		<td>{{ loop.index }}</td>
+		<td>
+			<span id="userid" style="display:none;">{{ item.id }}</span>
+			<span id="username">{{ item.username }}</span>
+		</td>
+		<td>{{ item.email }}</td>
+		<td><span id="name">{{ item.name }}</span></td>
+		<td>{{ item.phone }}</td>
+		<td><span id="roleid" style="display:none;">{{ item.roles[0].id }}</span>{{ item.roles[0].description }}</td>
+		<td>
+			<a class="edit" href="#" data-toggle="modal" data-target="#editUserModal">调整角色</a> | 
+			<a class="del" href="#" data-toggle="modal" data-target="#delUserModal">删除</a>
+		</td>
+	</tr>
+	{% endfor %}
+</table>

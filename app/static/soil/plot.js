@@ -47,6 +47,7 @@ $.fn.delplot=function(){
 }
 
 $(document).ready(function(){
+	$('#menu-soil').attr('class','dropdown active');
 	$('#editModal').find('#plotname').addClass('form-validator-empty');
 	$('#editModal').find('#frequency').addClass('form-validator-empty form-validator-integer');
 	$('#editModal').find('#londegree').addClass('form-validator-empty form-validator-integer');

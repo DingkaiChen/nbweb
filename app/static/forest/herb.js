@@ -240,6 +240,7 @@ $.fn.deleteconfirm=function(){
 }
 
 $(document).ready(function(){
+	$('#menu-forest').attr('class','dropdown active');
 	$('.inactive').click(function(){
 		$(this).changetab();
 	});

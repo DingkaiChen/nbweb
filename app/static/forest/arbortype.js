@@ -66,6 +66,7 @@ $.fn.checkerror=function(){
 }
 	
 $(document).ready(function(){
+	$('#menu-forest').attr('class','dropdown active');
 	$('.error-info').parent().parent().parent().parent().checkerror();
 	$('#pnl-form #imgurl').attr('style','display:none;');
 	$('#btn-add').click(function(){

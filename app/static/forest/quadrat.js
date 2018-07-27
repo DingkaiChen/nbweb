@@ -13,6 +13,7 @@ $.fn.delitem=function(){
 }
 
 $(document).ready(function(){
+	$('#menu-forest').attr('class','dropdown active');
 	$('.error-info').parent().parent().parent().parent().attr('style','');
 	$('#btn-add').click(function(){
 		$('#btn-add').additem();

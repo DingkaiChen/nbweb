@@ -1,0 +1,92 @@
+<table class="panel-heading" style="width:100%;">
+	<tr>
+		<td style="text-align:left; padding-left:15px;">
+			<h4>数据面板</h4>
+		</td>
+		<td style="text-align:right; padding-right:15px;">
+			<a class="btn btn-primary import" style="height:24px; vertical-align:center; padding-top:0; padding-bottom:0;" href="#" data-toggle="modal" data-target="#uploadModal">导入</a>
+			<a class="btn btn-primary" style="height:24px; vertical-align:center; padding-top:0; padding-bottom:0;" href="{{url_for('air.clearairdata')}}">清空</a></td>
+		</td>
+	</tr>
+</table>
+<table class="table">
+	<tr>
+		<th scope="col" style="padding-left:15px;">监测点</th>
+		<th scope="col">监测时间</th>
+		<th scope="col">NO2</th>
+		<th scope="col">CO</th>
+		<th scope="col">SO2</th>
+		<th scope="col">O3</th>
+		<th scope="col">PM10</th>
+		<th scope="col">PM2.5</th>
+		<th scope="col">操作</th>
+	<tr>
+	{% for data in datas %}
+	<tr scope="row">
+		<td style="padding-left:15px;">
+			<span id="dataid" style="display:none;">{{ data.id }}</span>
+			<span id="plotname">{{ data.plot.plotname }}</span>
+		</td>
+		<td><span id="timestamp">{{ data.timestamp }}</span></td>
+		<td>
+			<span id="no2">
+				{% if data.no2 or data.no2==0 %}
+				{{ data.no2 }}
+				{% endif %}
+			</span>
+		</td>
+		<td>
+			<span id="co">
+				{% if data.co or data.co==0 %}
+				{{ data.co }}
+				{% endif %}
+			</span>
+		</td>
+		<td>
+			<span id="so2">
+				{% if data.so2 or data.so2==0 %}
+				{{ data.so2 }}
+				{% endif %}
+			</span>
+		</td>
+		<td>
+			<span id="o3">
+				{% if data.o3 or data.o3==0 %}
+				{{ data.o3 }}
+				{% endif %}
+			</span>
+		</td>
+		<td>
+			<span id="pm10">
+				{% if data.pm10 or data.pm10==0 %}
+				{{ data.pm10 }}
+				{% endif %}
+			</span>
+		</td>
+		<td>
+			<span id="pm25">
+				{% if data.pm25 or data.pm25==0 %}
+				{{ data.pm25 }}
+				{% endif %}
+			</span>
+		</td>
+		<td>
+                        <a class="edit" href="#" data-toggle="modal" data-target="#editModal">编辑</a> |
+                        <a class="del" href="#" data-toggle="modal" data-target="#delModal">删除</a>
+                </td>
+	</tr>
+	{% endfor %}
+	<tr scope="row">
+		<td colspan="9" style="text-align:center;">
+			<span id="currentpage" style="display:none;">{{ current_page }}</span>
+			{% if prev_num %}
+			<a class='paginate' href="#datas" data-page="1" style="margin:5px;">首页</a>
+			<a class='paginate' href="#datas" data-page="{{ prev_num }}" style="margin:5px;">上一页</a>
+			{% endif %}
+			{% if next_num %}
+			<a class='paginate' href="#datas" data-page="{{ next_num }}" style="margin:5px;">下一页</a>
+			<a class='paginate' href="#datas" data-page="{{ pages }}" style="margin:5px;">尾页</a>
+			{% endif %}
+		</td>
+	</tr>
+</table>

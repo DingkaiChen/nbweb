@@ -32,16 +32,16 @@ def create_app(config_class=Config):
 	app.register_blueprint(main_bp)
 	
 	from app.air import bp as air_bp
-	app.register_blueprint(air_bp)
+	app.register_blueprint(air_bp, url_prefix='/air')
 
 	from app.water import bp as water_bp
 	app.register_blueprint(water_bp)
 
 	from app.soil import bp as soil_bp
-	app.register_blueprint(soil_bp)
+	app.register_blueprint(soil_bp, url_prefix='/soil')
 	
 	from app.forest import bp as forest_bp
-	app.register_blueprint(forest_bp)
+	app.register_blueprint(forest_bp,url_prefix='/forest')
 
 	from app.map import bp as map_bp
 	app.register_blueprint(map_bp)

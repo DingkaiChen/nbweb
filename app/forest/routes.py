@@ -10,11 +10,16 @@ import xlrd
 import re
 from datetime import date,datetime
 from app.forest import bp
+from flask_login import current_user,login_required
 
 ALLOWED_EXTENSIONS=set(['txt','pdf','png','jpg','jpeg','gif','xls','xlsx','csv'])
 
-@bp.route("/forest/plot",methods=["GET","POST"])
+@bp.route("/plot",methods=["GET","POST"])
+@login_required
 def plot():
+	if not current_user.check_roles(['admin','forest']):
+		flash('您无权访问该页面')
+		return redirect(url_for('main.index'))
 	form=ForestplotForm()
 	if form.validate_on_submit():
 		if form.id.data==0:
@@ -53,8 +58,12 @@ def plot():
 		splots.append([plot,arbors_count,quadrats_count])
 	return render_template('forest/plot.html',title='植被调查样地信息',plots=splots, form=form)
 
-@bp.route("/forest/delplot",methods=["POST"])
+@bp.route("/delplot",methods=["POST"])
+@login_required
 def delplot():
+	if not current_user.check_roles(['admin','forest']):
+		flash('您无权访问该页面')
+		return redirect(url_for('main.index'))
 	plotid=request.form['id']
 	name=request.form['name']
 	plot=Forestplot.query.filter_by(id=plotid).first()
@@ -75,8 +84,12 @@ def delplot():
 			splots.append([plot,arbors_count,quadrats_count])
 		return render_template('forest/_plots.html',plots=splots)
 
-@bp.route("/forest/arborsample",methods=["GET","POST"])
+@bp.route("/arborsample",methods=["GET","POST"])
+@login_required
 def arborsample():
+	if not current_user.check_roles(['admin','forest']):
+		flash('您无权访问该页面')
+		return redirect(url_for('main.index'))
 	plotid=request.args.get('plotid')
 	time=request.args.get('time')
 	plot=Forestplot.query.filter_by(id=plotid).first()
@@ -130,8 +143,12 @@ def arborsample():
 			time=""
 	return render_template('forest/arborsample.html',form=form,plot=plot,time=time,samples=samples,times=times,title="乔木采样数据")
 
-@bp.route("/forest/delarborsample",methods=["POST"])
+@bp.route("/delarborsample",methods=["POST"])
+@login_required
 def delarborsample():
+	if not current_user.check_roles(['admin','forest']):
+		flash('您无权访问该页面')
+		return redirect(url_for('main.index'))
 	sampleid=request.form['id']
 	delsample=Arborsample.query.filter_by(id=sampleid).first()
 	if delsample is None:
@@ -144,8 +161,12 @@ def delarborsample():
 		samples=Arborsample.query.join(Arborsample.arbor).filter(Arborsample.arbor_id.in_(arborids),Arborsample.timestamp==timestamp).order_by(Arbor.number).all()
 		return render_template('forest/_arborsamples.html',samples=samples)
 	
-@bp.route("/forest/arbortype",methods=["GET","POST"])
+@bp.route("/arbortype",methods=["GET","POST"])
+@login_required
 def arbortype():
+	if not current_user.check_roles(['admin','forest']):
+		flash('您无权访问该页面')
+		return redirect(url_for('main.index'))
 	form=ArbortypeForm()
 	if form.validate_on_submit():
 		if form.id.data==0:
@@ -176,8 +197,12 @@ def arbortype():
 	arbortypes=Arbortype.query.order_by(Arbortype.chnname).all()
 	return render_template('forest/arbortype.html',title="树种数据管理",form=form,typedatas=arbortypes)
 
-@bp.route("/forest/delarbortype",methods=["POST"])
+@bp.route("/delarbortype",methods=["POST"])
+@login_required
 def delarbortype():
+	if not current_user.check_roles(['admin','forest']):
+		flash('您无权访问该页面')
+		return redirect(url_for('main.index'))
 	typeid=request.form['id']
 	name=request.form['name']
 	arbortype=Arbortype.query.filter_by(id=typeid).first()
@@ -193,8 +218,12 @@ def delarbortype():
 		arbortypes=Arbortype.query.order_by(Arbortype.chnname).all()
 		return render_template('forest/_typedatas.html',typedatas=arbortypes)
 
-@bp.route("/forest/imgupload",methods=["POST"])
+@bp.route("/imgupload",methods=["POST"])
+@login_required
 def imgupload():
+	if not current_user.check_roles(['admin','forest']):
+		flash('您无权访问该页面')
+		return redirect(url_for('main.index'))
 	file=request.files['file1']
 	msg=""
 	error=""
@@ -208,8 +237,12 @@ def imgupload():
 	jsonstr=json.dumps({'error':error,'msg':msg,'imgurl':imgurl})
 	return jsonstr
 
-@bp.route("/forest/arbor/<plotid>",methods=["GET","POST"])
+@bp.route("/arbor/<plotid>",methods=["GET","POST"])
+@login_required
 def arbor(plotid):
+	if not current_user.check_roles(['admin','forest']):
+		flash('您无权访问该页面')
+		return redirect(url_for('main.index'))
 	plot=Forestplot.query.filter_by(id=plotid).first()
 	if plot is None:
 		flash('查询样地数据不存在！')
@@ -248,8 +281,12 @@ def arbor(plotid):
 		arbors=Arbor.query.filter(Arbor.plot==plot).order_by(Arbor.number).all()
 		return render_template('forest/arbor.html',title="样地乔木数据管理",plot=plot,arbors=arbors,form=form)
 
-@bp.route("/forest/arbor/delarbor",methods=["POST"])
+@bp.route("/arbor/delarbor",methods=["POST"])
+@login_required
 def delarbor():
+	if not current_user.check_roles(['admin','forest']):
+		flash('您无权访问该页面')
+		return redirect(url_for('main.index'))
 	number=request.form['number']
 	plotid=request.form['plotid']
 	plot=Forestplot.query.filter_by(id=plotid).first()
@@ -267,8 +304,12 @@ def delarbor():
 			arbors=Arbor.query.filter(Arbor.plot==plot).order_by(Arbor.number).all()
 			return render_template('forest/_arbors.html',plot=plot,arbors=arbors)
 
-@bp.route("/forest/quadrat",methods=["GET","POST"])
+@bp.route("/quadrat",methods=["GET","POST"])
+@login_required
 def quadrat():
+	if not current_user.check_roles(['admin','forest']):
+		flash('您无权访问该页面')
+		return redirect(url_for('main.index'))
 	form=QuadratForm()
 	form.plot.choices=[(plot.id,plot.plotname) for plot in Forestplot.query.all()]
 	if form.validate_on_submit():
@@ -284,8 +325,12 @@ def quadrat():
 	quadrats=Herbquadrat.query.join(Herbquadrat.plot).order_by(Forestplot.plotname,Herbquadrat.number).all()
 	return render_template('forest/quadrat.html',title='样方管理',quadrats=quadrats,form=form)
 
-@bp.route('/forest/delquadrat',methods=['POST'])
+@bp.route('/delquadrat',methods=['POST'])
+@login_required
 def delquadrat():
+	if not current_user.check_roles(['admin','forest']):
+		flash('您无权访问该页面')
+		return redirect(url_for('main.index'))
 	del_id=request.form['id']
 	quadrat=Herbquadrat.query.filter_by(id=del_id).first()
 	if quadrat:
@@ -296,8 +341,12 @@ def delquadrat():
 	else:
 		return 'fail'
 
-@bp.route("/forest/herbtype",methods=["GET","POST"])
+@bp.route("/herbtype",methods=["GET","POST"])
+@login_required
 def herbtype():
+	if not current_user.check_roles(['admin','forest']):
+		flash('您无权访问该页面')
+		return redirect(url_for('main.index'))
 	form=HerbtypeForm()
 	if form.validate_on_submit():
 		if form.id.data==0:
@@ -328,8 +377,12 @@ def herbtype():
 	herbtypes=Herbtype.query.order_by(Herbtype.chnname).all()
 	return render_template('forest/herbtype.html',title="草本植物种类管理",form=form,typedatas=herbtypes)
 
-@bp.route("/forest/delherbtype",methods=["POST"])
+@bp.route("/delherbtype",methods=["POST"])
+@login_required
 def delherbtype():
+	if not current_user.check_roles(['admin','forest']):
+		flash('您无权访问该页面')
+		return redirect(url_for('main.index'))
 	typeid=request.form['id']
 	name=request.form['name']
 	herbtype=Herbtype.query.filter_by(id=typeid).first()
@@ -341,8 +394,12 @@ def delherbtype():
 		herbtypes=Herbtype.query.order_by(Herbtype.chnname).all()
 		return render_template('forest/_typedatas.html',typedatas=herbtypes)
 
-@bp.route('/forest/herb',methods=['GET','POST'])
+@bp.route('/herb',methods=['GET','POST'])
+@login_required
 def herb():
+	if not current_user.check_roles(['admin','forest']):
+		flash('您无权访问该页面')
+		return redirect(url_for('main.index'))
 	times=[sample.timestamp.strftime('%Y-%m-%d') for sample in Herbsample.query.group_by(Herbsample.timestamp).order_by(Herbsample.timestamp.desc()).all()]
 	if request.method=="GET":
 		plotid=request.args.get('plotid')
@@ -369,8 +426,12 @@ def herb():
 		herbform.herbtype.choices=[(herbtype.id,herbtype.chnname) for herbtype in Herbtype.query.order_by(Herbtype.chnname.desc()).all()]
 		return render_template('forest/herb.html',title='草本植物调查数据',times=times,time=time,quadrats=quadrats,quadrat=quadrat,herbsample=herbsample,herbsampleform=herbsampleform,herbform=herbform)
 
-@bp.route('/forest/delherbtime',methods=['POST'])
+@bp.route('/delherbtime',methods=['POST'])
+@login_required
 def delherbtime():
+	if not current_user.check_roles(['admin','forest']):
+		flash('您无权访问该页面')
+		return redirect(url_for('main.index'))
 	plotid=request.form['plotid']
 	time=request.form['time']
 	timestamp=datetime.strptime(time,'%Y-%m-%d')
@@ -382,8 +443,12 @@ def delherbtime():
 	db.session.commit()
 	return redirect(url_for('forest.herb',plotid=plotid))
 
-@bp.route('/forest/changetab',methods=['GET'])
+@bp.route('/changetab',methods=['GET'])
+@login_required
 def changetab():
+	if not current_user.check_roles(['admin','forest']):
+		flash('您无权访问该页面')
+		return redirect(url_for('main.index'))
 	quadratid=request.args.get('quadratid')
 	quadrat=Herbquadrat.query.filter_by(id=quadratid).first()
 	if quadrat is None:
@@ -398,8 +463,12 @@ def changetab():
 		quadratsample=Herbsample.query.filter(Herbsample.quadrat==quadrat,Herbsample.timestamp==timestamp).first()
 		return render_template('forest/_quadratsamples.html',quadrats=quadrats,quadrat=quadrat,herbsample=quadratsample)
 	
-@bp.route('/forest/editquadratsample',methods=['POST'])
+@bp.route('/editquadratsample',methods=['POST'])
+@login_required
 def editquadratsample():#add or edit quadrat sample
+	if not current_user.check_roles(['admin','forest']):
+		flash('您无权访问该页面')
+		return redirect(url_for('main.index'))
 	sample_id=request.form['sample_id']
 	quadrat_id=request.form['quadrat_id']
 	time=request.form['time']
@@ -432,8 +501,12 @@ def editquadratsample():#add or edit quadrat sample
 			db.session.commit()
 	return render_template('forest/_quadratsample.html',herbsample=quadratsample)
 
-@bp.route('/forest/delquadratsample',methods=['POST'])
+@bp.route('/delquadratsample',methods=['POST'])
+@login_required
 def delquadratsample():
+	if not current_user.check_roles(['admin','forest']):
+		flash('您无权访问该页面')
+		return redirect(url_for('main.index'))
 	sample_id=request.form['id']
 	quadratsample=Herbsample.query.filter_by(id=sample_id).first()
 	if quadratsample is None:
@@ -445,8 +518,12 @@ def delquadratsample():
 		db.session.commit()
 		return	'<span>所选调查时间内没有数据，</span><a href="#" data-toggle="modal" data-target="#addsampleModal">添加数据？</a>'
 
-@bp.route('/forest/editherbsample',methods=['POST'])
+@bp.route('/editherbsample',methods=['POST'])
+@login_required
 def editherbsample():#add or edit herbsample data
+	if not current_user.check_roles(['admin','forest']):
+		flash('您无权访问该页面')
+		return redirect(url_for('main.index'))
 	herbtype_id=request.form['herbtype']
 	herbsample_id=request.form['herbsample_id']
 	quantity=request.form['quantity']
@@ -488,8 +565,12 @@ def editherbsample():#add or edit herbsample data
 			herbsample=herb.sample
 	return render_template('forest/_herbsinsample.html',herbsample=herbsample)
 
-@bp.route('/forest/delherbsample',methods=['POST'])
+@bp.route('/delherbsample',methods=['POST'])
+@login_required
 def delherbsample():
+	if not current_user.check_roles(['admin','forest']):
+		flash('您无权访问该页面')
+		return redirect(url_for('main.index'))
 	herb_id=request.form['id']
 	herb=Herb.query.filter_by(id=herb_id).first()
 	if herb is None:

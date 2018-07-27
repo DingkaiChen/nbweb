@@ -1,0 +1,34 @@
+<div class="modal fade" id="delUserModal" tabindex="-1" role="dialog" aria-labelledby="delModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<form action="" method="post">
+				{{ form.hidden_tag() }}
+				<div class="modal-header">
+					<a class="close" data-dismiss="modal" aira-label="Close"><span aria-hidden="true">&times;</span></a>
+					<h4 class="modal-title" id="delModalLabel">删除用户角色</h4>
+				</div>
+				<div class="modal-body">
+					<p style="display:none;">
+						{{ form.id }}
+						{{ form.action }}
+					</p>
+					<p><b>确定删除如下用户吗？</b></p>
+					<div style="padding-left:20px;">
+						<p>
+							<b>用户名：</b>
+							<span id="username"></span>
+						</p>
+						<p>
+							<b>姓名：</b>
+							<span id="name"></span>
+						</p>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default form-clearerrorinfo" data-dismiss="modal">取消</button> {{ form.submit() }}
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+

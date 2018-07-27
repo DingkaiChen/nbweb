@@ -1,3 +1,15 @@
+<table class="panel-heading" style="width:100%;">
+	<tr>
+		<td style="text-align:left; padding-left:15px;">
+			<h4>数据面板</h4>
+		</td>
+		<td style="text-align:right; padding-right:15px;">
+			<a class="btn btn-primary" style="height:24px; vertical-align:center; padding-top:0; padding-bottom:0;" id='btn-add' href="#" data-toggle="modal" data-target="#editModal" >添加</a>
+			<a class="btn btn-primary import" style="height:24px; vertical-align:center; padding-top:0; padding-bottom:0;" href="#" data-toggle="modal" data-target="#uploadModal">导入</a>
+			<a class="btn btn-primary" style="height:24px; vertical-align:center; padding-top:0; padding-bottom:0;" href="{{url_for('soil.clearplots')}}">清空</a></td>
+		</td>
+	</tr>
+</table>
 <table class="table">
 	<tr>
 		<th scope="col">序号</th>
@@ -11,7 +23,7 @@
 	</tr>
 	{% for plot in plots %}
 	<tr scope="row">
-		<td>{{ loop.index }}</td>
+		<td style="padding-left:15px;">{{ loop.index }}</td>
 		<td><span id="plotid" style="display:none;">{{ plot.id }}</span><span id="plotname">{{ plot.plotname }}</span></td>
 		<td><span id="region">{{ plot.region }}</span></td>
 		<td><span id="londegree">{{ plot.londegree }}</span>°<span id="lonminute">{{ plot.lonminute }}</span>'<span id="lonsecond">{{ plot.lonsecond }}</span>"</td>
@@ -21,8 +33,4 @@
 		<td><a class="edit" href="#"  data-toggle="modal" data-target="#editModal" >编辑</a> | <a class="del" href="#" data-toggle="modal" data-target="#delModal" >删除</a></td>
 	</tr>
 	{% endfor %}
-	<tr>
-		<td colspan='7'></td>
-		<td><a id='btn-add' href="#" data-toggle="modal" data-target="#editModal" >添加样地</a> | <a id='btn-upload' href="#upload">上传样地数据</a> | <a href="{{url_for('soil.clearplots')}}">清空点位数据</a></td>
-	</tr>
 </table>

@@ -2,80 +2,15 @@
 
 {% block app_content %}
 	<h1>空气质量监测站点管理</h1>
-	<form action="" method="post">
-		{{ form.hidden_tag() }}
-		<table class="table">
-			<tr>
-				<th scope="col">站点名称</th>
-				<th scope="col">区域功能类型</th>
-				<th scope="col">经度</th>
-				<th scope="col">纬度</th>
-				<th scope="col">高程</th>
-				<th scope="col">采样频率</th>
-				<th scope="col">操作</th>
-			</tr>
-			{% for plot in plots %}
-			<tr scope="row">
-				<td>{{ plot.plotname }}</td>
-				<td>{{ plot.landtype }}</td>
-				<td>{{ plot.londegree }}°{{ plot.lonminute }}'{{ plot.lonsecond }}"</td>
-				<td>{{ plot.latdegree }}°{{ plot.latminute }}'{{ plot.latsecond }}"</td>
-				<td>{{ plot.altitude }}</td>
-				<td>{{ plot.samplefrequency }}</td>
-				<td><a href="">删除</a></td>
-			</tr>
-			{% endfor %}
-			<tr scope="row">
-				<td>
-					{{ form.plotname }}
-					{% for error in form.plotname.errors %}
-					<br><span style="color:red;">[{{ error }}]</span>
-					{% endfor %}
-				</td>
-				<td>
-					{{ form.landtype }}
-					{% for error in form.landtype.errors %}
-					<br><span style="color:red;">[{{ error }}]</span>
-					{% endfor %}
-				</td>
-				<td>
-					{{ form.londegree(size=3) }}°{{ form.lonminute(size=2) }}'{{ form.lonsecond(size=7) }}"
-					{% for error in form.londegree.errors %}
-					<br><span style="color:red;">[{{ error }}]</span>
-					{% endfor %}
-					{% for error in form.lonminute.errors %}
-					<br><span style="color:red;">[{{ error }}]</span>
-					{% endfor %}
-					{% for error in form.lonsecond.errors %}
-					<br><span style="color:red;">[{{ error }}]</span>
-					{% endfor %}
-				</td>>
-				<td>
-					{{ form.latdegree(size=3) }}°{{ form.latminute(size=2) }}'{{ form.latsecond(size=7) }}"
-					{% for error in form.latdegree.errors %}
-					<br><span style="color:red;">[{{ error }}]</span>
-					{% endfor %}
-					{% for error in form.latminute.errors %}
-					<br><span style="color:red;">[{{ error }}]</span>
-					{% endfor %}
-					{% for error in form.latsecond.errors %}
-					<br><span style="color:red;">[{{ error }}]</span>
-					{% endfor %}
-				</td>
-				<td>
-					{{ form.altitude(size=4) }}
-					{% for error in form.altitude.errors %}
-					<br><span style="color:red;">[{{ error }}]</span>
-					{% endfor %}
-				</td>
-				<td>
-					{{ form.samplefrequency }}
-					{% for error in form.samplefrequency.errors %}
-					<br><span style="color:red;">[{{ error }}]</span>
-					{% endfor %}
-				</td>
-				<td>{{ form.submit() }}</td>
-			</tr>
-		</table>
-	</form>
+	<div id='plots' class="panel panel-success">
+	{% include 'air/_plots.html' %}
+	</div>
+	{% include 'air/_editplotmodal.html' %}
+	{% include 'air/_delplotmodal.html' %}
+{% endblock %}
+
+{% block scripts %}
+	{{ super() }}
+	
+	<script type=text/javascript src="{{ url_for('static',filename='air/plot.js') }}"></script>
 {% endblock %}

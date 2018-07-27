@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block navbar %}
-	<nav class="navbar navbar-default">
+	<nav class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -18,27 +18,48 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="{{ url_for('main.index') }}">宁波城市环境观测网</a>
+				<a class="navbar-brand" href="{{ url_for('main.index') }}">宁波 · 城市环境综合观测</a>
 			</div>
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-				<ul class="nav navbar-nav">
-					<li><a href="{{ url_for('main.index') }}">首页</a></li>
-					<li><a href="{{ url_for('water.data') }}">水环境</a></li>
-					<li class="dropdown">
+				<ul class="nav navbar-nav navbar-menu">
+					<li id="menu-index"><a href="{{ url_for('main.index') }}">首页</a></li>
+					<li id="menu-water"><a href="{{ url_for('water.data') }}">水环境</a></li>
+					<li id="menu-soil" class="dropdown">
+						{% if current_user.is_authenticated %}
+						{% if current_user.check_roles(['admin','soil']) %}
 						<a href="{{ url_for('soil.plot') }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">土壤环境 <span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<li><a href="{{ url_for('soil.plot') }}">样地数据管理</a></li>
+							<li><a href="{{ url_for('soil.indicator') }}">监测指标项管理</a></li>
 							<li><a href="{{ url_for('soil.data') }}">采样数据管理</a></li>
 						</ul>
+						{% else %}
+						<a class="disabled">土壤环境 </a>
+						{% endif %}
+						{% else %}
+						<a class="disabled">土壤环境 </a>
+						{% endif %}
 					</li>
-					<li class="dropdown">
+					<li id="menu-air" class="dropdown">
+						{% if current_user.is_authenticated %}
+						{% if current_user.check_roles(['admin','air']) %}
 						<a href="{{ url_for('air.airdata') }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">大气环境 <span class="caret"></span></a>
 						<ul class="dropdown-menu">
+							<li><a href="{{ url_for('air.plot') }}">监测点位管理</a></li>
+							<li><a href="{{ url_for('air.voctype') }}">挥发性有机物指标管理</a></li>
 							<li><a href="{{ url_for('air.airdata') }}">常规空气质量监测</a></li>
 							<li><a href="{{ url_for('air.vocdata') }}">挥发性有机物监测</a></li>
 						</ul>
+						{% else %}
+						<a class="disabled">大气环境 </a>
+						{% endif %}
+						{% else %}
+						<a class="disabled">大气环境 </a>
+						{% endif %}
 					</li>
-					<li class="dropdown">
+					<li id="menu-forest" class="dropdown">
+						{% if current_user.is_authenticated %}
+						{% if current_user.check_roles(['admin','forest']) %}
 						<a href="{{ url_for('forest.plot') }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">森林环境 <span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<li><a href="{{ url_for('forest.plot') }}">样地数据管理</a></li>
@@ -46,11 +67,23 @@
 							<li><a href="{{ url_for('forest.arbortype') }}">树种数据管理</a></li>
 							<li><a href="{{ url_for('forest.herbtype') }}">草种数据管理</a></li>
 						</ul>
+						{% else %}
+						<a class="disabled">森林环境 </a>
+						{% endif %}
+						{% else %}
+						<a class="disabled">森林环境 </a>
+						{% endif %}
 					</li>
-					<li><a href="{{ url_for('main.index') }}">社会经济环境</a></li>
+					<li id="menu-economic"><a href="{{ url_for('main.index') }}">社会经济环境</a></li>
 					{% if current_user.is_authenticated %}
 					{% if current_user.check_roles(['admin']) %}
-					<li><a href="{{ url_for('auth.newusers') }}">新用户审核</a></li>
+					<li id="menu-user" class="dropdown">
+						<a href="{{ url_for('forest.plot') }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aira-haspopup="true" aria-expanded="false">用户管理<span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="{{ url_for('auth.users') }}">用户账户管理</a></li>
+							<li><a href="{{ url_for('auth.newusers') }}">新用户审核</a></li>
+						</ul>
+					</li>
 					{% endif %}
 					{% endif %}
 				</ul>
@@ -69,7 +102,7 @@
 {% endblock %}
 
 {% block content %}
-	<div class="container">
+	<div class="container body-content">
 		{% with messages=get_flashed_messages() %}
 		{% if messages %}
 			{% for message in messages %}
@@ -81,6 +114,11 @@
 		{# application content needs to be provided in the app_content block #}
 		{% block app_content %}{% endblock %}
 	</div>
+{% endblock %}
+
+{% block head %}
+	{{ super() }}
+	<link rel="stylesheet" href="{{ url_for('static',filename='css/base.css') }}"/>
 {% endblock %}
 
 {% block scripts %}

@@ -1,0 +1,24 @@
+<div class="modal fade" id="delModal" tabindex="-1" role="dialog" aria-labelledby="delModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<a class="close" data-dismiss="modal" aira-label="Close"><span aria-hidden="true">&times;</span></a>
+				<h4 class="modal-title" id="delModalLabel">删除数据</h4>
+			</div>
+			<div class="modal-body">
+				<span style="display:none;" id="del-id"></span>
+				<p>
+					<span>确定删除</span>
+					<b id="plotname"></b>
+					<span>在</span>
+					<b id="timestamp"></b>
+					<span>的数据吗？</b>
+				</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default form-clearerrorinfo" data-dismiss="modal">取消</button>
+				<button id="del-confirm" type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+			</div>
+		</div>
+	</div>
+</div>

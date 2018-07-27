@@ -4,8 +4,7 @@
 			<h4>数据面板</h4>
 		</td>
 		<td style="text-align:right; padding-right:15px;">
-			<a class="btn btn-primary add" style="height:24px; vertical-align:center; padding-top:0; padding-bottom:0;" href="#" data-toggle="modal" data-target="#editDataModal">添加</a>
-			<a class="btn btn-primary import" style="height:24px; vertical-align:center; padding-top:0; padding-bottom:0;" href="#" data-toggle="modal" data-target="#importDataModal">导入</a>
+			<a class="btn btn-primary import" style="height:24px; vertical-align:center; padding-top:0; padding-bottom:0;" href="#" data-toggle="modal" data-target="#uploadModal">导入</a>
 		</td>
 	</tr>
 </table>
@@ -13,38 +12,47 @@
 	<tr>
 		<th scope="col">序号</th>
 		<th scope="col">监测点</th>
+		<th scope="col">年份</th>
 		{% for item in indicators %}
 		<th scope="col">
 			<span>{{ item.indicatorname }}</span>
+			{% if item.unit %}
 			<br>
 			<span>({{ item.unit }})</span>
+			{% endif %}
 		</th>
 		{% endfor %}
 		<th scope="col">操作</th>
 	</tr>
-	{% for plot in plots %}
-	<tr scope="row">
-		<td>{{ loop.index }}</td>
+	
+	{% for item in datas %}
+	<tr id="row-{{ loop.index }}" scope="row">
 		<td>
-			<span id="plotid" style="display:none;">{{ plot.id }}</span>
-			<span id="name">{{ plot.plotname }}</span>
+			{{ loop.index }}
+			<span id="rowid" style="display:none;">row-{{ loop.index }}</span>
+		</td>
+		<td>
+			<span id="plotid" style="display:none;">{{ item[0].id }}</span>
+			<span id="plotname">{{ item[0].plotname }}</span>
+		</td>
+		<td>
+			<span id="year">{{ item[1] }}</span>
 		</td>
 		{% for indicator in indicators %}
-		{% for data in datas %}
-		{% if data.plot==plot %}
-		{% if data.indicator==indicator %}
-		<td>{{ item.value }}</td>
-		{% else %}
-		<td>&nbsp;</td>
-		{% endif %}
-		{% endif %}
-		{% endfor %}
+		<td>
+			<span id="{{ indicator.id }}">
+			{% for data in item[2] %}
+			{% if data.indicator==indicator %}
+			{{ data.value }}
+			{% endif %}
+			{% endfor %}
+			</span>
+		</td>
 		{% endfor %}			
 		<td>
-			<a class="edit" href="#" data-toggle="modal" data-target="#editDataModal">编辑</a> | 
+			<a class="edit" href="#" data-toggle="modal" data-target="#editdataModal">编辑</a> | 
 			<a class="del" href="#" data-toggle="modal" data-target="#delModal">删除</a>
 		</td>
 	</tr>
 	{% endfor %}
 </table>
-			

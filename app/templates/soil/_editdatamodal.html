@@ -1,0 +1,38 @@
+<div class="modal fade" id="editdataModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<a class="close" data-dismiss="modal" aira-label="Close"><span aria-hidden="true">&times;</span></a>
+				<h4 class="modal-title" id="editModalLabel">编辑数据</h4>
+			</div>
+			<div class="modal-body">
+				<span style="display:none;" id="row-id"></span>
+				<p>
+					<b>样点：</b>
+					<span id="edit-plot"></span>
+					<span style="display:none;" id="edit-plot-id"></span>
+				</p>
+				<p>
+					<b>年份：</b>
+					<span id="edit-year"></span>
+				</p>
+				<p>
+					<b>指标：</b>
+					<select id="edit-indicator" name="edit-indicator">
+						{% for item in indicators %}
+						<option value="{{ item.id }}">{{ item.indicatorname }}</option>
+						{% endfor %}
+					</select>
+				</p>
+				<p>
+					<b>数值：</b>
+					<input id="edit-value" name="edit-value" size="6" value="" type="text"/>
+				</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default form-clearerrorinfo" data-dismiss="modal">取消</button>
+				<button id="edit-confirm" type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+			</div>
+		</div>
+	</div>
+</div>

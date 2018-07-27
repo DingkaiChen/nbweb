@@ -1,0 +1,24 @@
+<div class="modal fade" id="delModal" tabindex="-2" role="dialog" aria-labelledby="delModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<form action="" method="post">
+				{{ form.hidden_tag() }}
+				<div class="modal-header">
+					<a class="close" data-dismiss="modal" aira-label="Close"><span aria-hidden="true">&times;</span></a>
+					<h4 class="modal-title" id="delModalLabel">删除确认</h4>
+				</div>
+				<div class="modal-body">
+					<p style="display:none;">
+						{{ form.id }}
+						{{ form.action }}
+					</p>
+					<p id="del-message"></p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>  {{ form.submit() }}
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+

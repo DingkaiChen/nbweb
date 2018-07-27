@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block app_content %}
+<div id="alert" style="display:none;" role="alert"></div>
+<h1>用户账户管理</h1>
+<div id='users' class="panel panel-default">
+	{% include 'auth/_users.html' %}
+</div>
+{% include 'auth/_editusermodal.html' %}
+{% include 'auth/_delusermodal.html' %}
+{% endblock %}
+
+{% block scripts %}
+	{{ super() }}
+
+	<script stype=text/javascript src="{{ url_for('static',filename='auth/users.js') }}"></script>
+{% endblock %}

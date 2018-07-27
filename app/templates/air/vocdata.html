@@ -1,84 +1,87 @@
 {% extends 'base.html' %}
 
 {% block app_content %}
+	<div id="alert" style="display:none;" role="alert"></div>
 	<h1>挥发性有机物监测数据</h1>
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<h3 class="panel-title">数据查询</h3>
-		</div>
+	<div id="editpnl" class="panel panel-success">
+		<table class="panel-heading" style="width:100%;">
+			<tr>
+				<td style="text-align:left; padding-left:15px;">
+					<h4>查询面板</h4>
+				</td>
+				<td style="text-align:right; padding-right:15px;">
+					<img id="pnl-toggle" data-status="open" style="height:24px; vertical-align:center; padding-top:0; padding-bottom:0; width:24px; cursor:pointer;" src="../static/icons/up.png">
+				</td>
+			</tr>
+		</table>
 		<div class="panel-body">
 			<form action="" method="post" name="vocdata">
 				{{ form.hidden_tag() }}
-				<p>
-					{{ form.plots.label }}<br>
-					{{ form.plots(size=10) }}<br>
-					{% for error in form.plots.errors %}
-					<span style="color:red;">[{{error}}]</span>
-					{% endfor %}
-				</p>
-				<p>
-					{{ form.voctypes.label }}<br>
-					{{ form.voctypes(size=20) }}<br>
-					{% for error in form.voctypes.errors %}
-					<span style="color:red;">[{{error}}]</span>
-					{% endfor %}
-				</p>
-				<p>
-					{{ form.starttime.label }}
-					{{ form.starttime }}
-					{% for error in form.starttime.errors %}
-					<span style="color:red;">[{{error}}]</span>
-					{% endfor %}
-				 </p>
-					{{ form.endtime.label }}
-					{{ form.endtime }}
-					{% for error in form.endtime.errors %}
-					<span style="color:red;">[{{error}}]</span>
-					{% endfor %}
-				</p>
-				<p>{{ form.submit() }}</p>
+				<table style="width:100%">
+					<tr>
+						<td style="width:240px; padding:5px;">
+							{{ form.plots.label }}<br>
+							{{ form.plots(size=20) }}<br>
+							{% for error in form.plots.errors %}
+							<span style="color:red;">[{{error}}]</span>
+							{% endfor %}
+						</td>
+						<td style="width:240px; padding:5px;">
+							{{ form.voctypes.label }}<br>
+							{{ form.voctypes(size=20) }}<br>
+							{% for error in form.voctypes.errors %}
+							<span style="color:red;">[{{error}}]</span>
+							{% endfor %}
+						</td>
+						<td style="width:240px; padding:5px;">
+							{{ form.timestamps.label }}<br>
+							{{ form.timestamps(size=20) }}<br>
+						</td>
+					</tr>
+					<tr>
+						<td style="text-align:left;padding-left:5px;">
+							{{ form.submit() }}
+						</td>
+						<td colspan='2' style="text-align:right; padding-right:5px;">
+							<span style="font-size:small; color:#444;">操作说明：按“Ctrl”可多选，按“Shift”可连选.</span>
+						</td>
+					</tr>
+				</table>
 			</form>
 		</div>
 	</div>
-	<div>
-		<table class="table">
-			<tr>
-				<th scope="col">监测时间</th>
-				<th scope="col">目标物</th>
-				{% for plot in plots %}
-				<th scope="col">{{ plot.plotname }}</th>
-				{% endfor %}
-			<tr>
-			{% for datarow in datas %}
-			<tr scope="row">
-				<td>{{ datarow[0].timestamp.strftime('%Y年%m月' ) }}</td>
-				<td>{{ datarow[0].voctype.vocname }}</td>
-				{% for plot in plots %}
-				<td>
-					{% for data in datarow %}
-						{% if data.airplot_id==plot.id %}
-							{{ "{:.3f}".format(data.value) }}
-						{% endif %}
-					{% endfor %}
-				</td>
-				{% endfor %}
-			</tr>
-			{% endfor %}
-		</table>
-		{% if prev_url %}
-		<a href="{{ prev_url }}">上一页</a>
-		{% endif %}
-		{% if next_url %}
-		<a href="{{ next_url }}">下一页</a>
-		{% endif %}
+	<div id="datas" class="panel panel-success">
+		{% include "air/_vocdatas.html" %}
 	</div>
+	<div id="query" style="display:none;">
+		<p id="plots">
+			{% for item in plots %}
+			<span>{{ item.id }}</span>
+			{% endfor %}
+		</p>
+		<p id="types">
+			{% for item in voctypes %}
+			<span>{{ item.id }}</span>
+			{% endfor %}
+		</p>
+		<p id="times">
+			{% for item in timestrs %}
+			<span>{{ item }}</span>
+			{% endfor %}
+		</p>
+	</div>	
+	{% include "air/_uploadvocmodal.html" %}
+	{% include "air/_editvocmodal.html" %}
+	{% include "air/_delvocmodal.html" %}
 	<br>
 	<div>
-		<a href="{{url_for('air.airdata')}}">常规空气质量监测数据</a> | 
-		<a href="{{url_for('air.upload')}}">上传数据</a> | 
-		<a href="{{url_for('air.airplots')}}">监测点位管理</a> | 
 		<a href="{{url_for('air.clearairdata')}}">清空常规空气质量数据</a> | 
-		<a href="{{url_for('air.clearvocdata')}}">清空挥发性有机物数据</a> | 
 		<a href="{{url_for('air.clearvoctype')}}">清空VOC类型数据</a>
 	</div>
+{% endblock %}
+
+{% block scripts %}
+	{{ super() }}
+
+	<script type=text/javascript src="{{ url_for('static',filename='air/vocdata.js') }}"></script>
 {% endblock %}

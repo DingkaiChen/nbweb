@@ -1,0 +1,43 @@
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<form action="" method="post">
+				{{ form.hidden_tag() }}
+				<div class="modal-header">
+					<a class="close" data-dismiss="modal" aira-label="Close"><span aria-hidden="true">&times;</span></a>
+					<h4 class="modal-title" id="editModalLabel"></h4>
+				</div>
+				<div class="modal-body">
+					<p style="display:none;">
+						{{ form.id }}
+						{{ form.action }}
+					</p>
+					<p class="form-validgroup">
+						{{ form.plotname.label }}
+						{{ form.plotname(size=24) }}
+					</p>
+					<p class="form-validgroup">
+						{{ form.landtype.label }}
+						{{ form.landtype(size=24) }}
+					</p>
+					<p class="form-validgroup">
+						<b>经度</b>
+						{{ form.londegree(size=3) }}°{{ form.lonminute(size=2) }}'{{ form.lonsecond(size=7) }}"
+					</p>	
+					<p class="form-validgroup">
+						<b>纬度</b>
+						{{ form.latdegree(size=3) }}°{{ form.latminute(size=2) }}'{{ form.latsecond(size=7) }}"
+					</p>
+					<p class="form-validgroup">
+						{{ form.samplefrequency.label }}
+						{{ form.samplefrequency(size=12) }}
+					</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default form-clearerrorinfo" data-dismiss="modal">取消</button>  {{ form.submit() }}
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+

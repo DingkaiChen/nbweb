@@ -56,6 +56,7 @@ $.fn.checkerror=function(){
 }
 
 $(document).ready(function(){
+	$('#menu-forest').attr('class','dropdown active');
 	$('.error-info').parent().parent().parent().parent().checkerror();
 	$('#btn-add').click(function(){
 		$('#btn-add').additem();

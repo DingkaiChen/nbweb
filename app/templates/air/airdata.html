@@ -1,46 +1,72 @@
 {% extends 'base.html' %}
 
 {% block app_content %}
+	<div id="alert" style="display:none;" role="alert"></div>
 	<h1>常规空气质量监测数据</h1>
-	<div>
-		<table class="table">
+	<div id="editpnl" class="panel panel-success">
+		<table class="panel-heading" style="width:100%;">
 			<tr>
-				<th scope="col">监测点</th>
-				<th scope="col">监测时间</th>
-				<th scope="col">NO2</th>
-				<th scope="col">CO</th>
-				<th scope="col">SO2</th>
-				<th scope="col">O3</th>
-				<th scope="col">PM10</th>
-				<th scope="col">PM2.5</th>
-			<tr>
-			{% for data in datas %}
-			<tr scope="row">
-				<td>{{ data.plot.plotname }}</td>
-				<td>{{ data.timestamp }}</td>
-				<td>{{ data.no2 }}</td>
-				<td>{{ data.co }}</td>
-				<td>{{ data.so2 }}</td>
-				<td>{{ data.o3 }}</td>
-				<td>{{ data.pm10 }}</td>
-				<td>{{ data.pm25 }}</td>
+				<td style="text-align:left; padding-left:15px;">
+					<h4>查询面板</h4>
+				</td>
+				<td style="text-align:right; padding-right:15px;">
+					<img id="pnl-toggle" data-status="open" style="height:24px; vertical-align:center; padding-top:0; padding-bottom:0; width:24px; cursor:pointer;" src="../static/icons/up.png">
+				</td>
 			</tr>
-			{% endfor %}
 		</table>
-		{% if prev_url %}
-		<a href="{{ prev_url }}">上一页</a>
-		{% endif %}
-		{% if next_url %}
-		<a href="{{ next_url }}">下一页</a>
-		{% endif %}
+		<div class="panel-body">
+			<form action="" method="post" name="airdata">
+				{{ form.hidden_tag() }}
+				<table style="width:100%">
+					<tr>
+						<td style="vertical-align:bottom; width:240px; padding:5px;">
+							<b>监测点：</b><br>
+							{{ form.plots }}
+							{% for error in form.plots.errors %}
+							<span style="color:red;">[{{error}}]</span>
+							{% endfor %}
+						</td>
+						<td style="vertical-align:bottom; width:240px; padding:5px;">
+							<b>开始时间：</b><br>
+							{{ form.timestart(size=24) }}
+						</td>
+						<td style="vertical-align:bottom; width:240px; padding:5px;">
+							<b>结束时间：</b><br>
+							{{ form.timeend(size=24) }}
+						</td>
+						<td style="vertical-align:bottom; text-align:left;padding:5px;">
+							{{ form.submit() }}
+						</td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td colspan='3' style="text-align:left; padding-left:5px;">
+							<span style="font-size:small; color:#444;">操作说明：时间输入请严格参照格式'2008-09-10 19:10:00'</span>
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
 	</div>
+	<div id="query" style="display:none;">
+		<span id="plotid">{{ plotid }}</span>
+		<span id="timestart">{{ timestart }}</span>
+		<span id="timeend">{{ timeend }}</span>
+	</div>
+	<div id="datas" class="panel panel-success">
+		{% include "air/_datas.html" %}
+	</div>
+	{% include "air/_uploadvocmodal.html" %}
+	{% include "air/_editdatamodal.html" %}
+	{% include "air/_deldatamodal.html" %}
 	<br>
 	<div>
-		<a href="{{url_for('air.vocdata')}}">挥发性有机物监测数据</a> | 
-		<a href="{{url_for('air.upload')}}">上传数据</a> | 
-		<a href="{{url_for('air.airplots')}}">监测点位管理</a> | 
-		<a href="{{url_for('air.clearairdata')}}">清空常规空气质量数据</a> | 
-		<a href="{{url_for('air.clearvocdata')}}">清空挥发性有机物数据</a> | 
 		<a href="{{url_for('air.clearvoctype')}}">清空VOC类型数据</a>
 	</div>
+{% endblock %}
+
+{% block scripts %}
+	{{ super() }}
+	
+	<script type=text/javascript src="{{ url_for('static',filename='air/data.js') }}"></script>
 {% endblock %}

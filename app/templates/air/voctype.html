@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block app_content %}
+	<div id="alert" style="display:none;" role="alert"></div>
+	<h1>挥发性有机物指标管理</h1>
+	<div id='voctypes' class="panel panel-success">
+	{% include 'air/_voctypes.html' %}
+	</div>
+	{% include 'air/_edittypemodal.html' %}
+	{% include 'air/_deltypemodal.html' %}
+{% endblock %}
+
+{% block scripts %}
+	{{ super() }}
+	
+	<script type=text/javascript src="{{ url_for('static',filename='air/voctype.js') }}"></script>
+{% endblock %}
+

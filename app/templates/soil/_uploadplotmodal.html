@@ -1,0 +1,24 @@
+<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<a class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></a>
+				<h4 class="modal-title" id="uploadModalLabel">数据上传</h4>
+			</div>
+			<div class="modal-body">
+				<form action="" method=post enctype=multipart/form-data>
+					<p>
+						<input id="action" name="action" value="3" type="text" style="display:none;">
+						<input type='file' name='file'>
+						<hr>
+						<input type='submit' value="上传"> <input id='upload-cancel' type='button' data-dismiss="modal" value='取消'>
+						<button id="uploadtip" type="button" class="btn btn-default btn-sm" title='请严格按照下载模板格式上传EXCEL数据。建议以模板为基础进行填写，不要改变第一行（标题行）的内容。经纬度格式按度分秒填写（参照模板）。区域类型只能包含2类：“北仑城区网格化采样”和“城郊乡梯度流域采样”。“样点名称”如果已存在，则对应一条数据将不会被添加，其余数据可照常添加。' data-toggle="tooltip" data-placement="top" style="background-color:tranparent;">上传说明</button>
+					</p>
+					<p>
+						<a id="downloadtemplate" target="_blank" href="{{ url_for('soil.download_plotexample') }}">下载模板文件</a>
+					</p>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

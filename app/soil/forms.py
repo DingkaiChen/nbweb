@@ -22,4 +22,14 @@ class SoildataqueryForm(FlaskForm):
 	plots=SelectMultipleField('样地',coerce=int,validators=[DataRequired()])
 	indicators=SelectMultipleField('指标',coerce=int,validators=[DataRequired()])
 	years=SelectMultipleField('年份',coerce=int,validators=[DataRequired()])
+	submit=SubmitField('查询')
+
+class SoilindicatorForm(FlaskForm):
+	id=IntegerField('ID')
+	action=IntegerField('action')
+	indicatorname=StringField('指标名称',validators=[DataRequired()])
+	symbol=StringField('符号')
+	unit=StringField('单位')
+	indicatortype=SelectField('指标类型')
 	submit=SubmitField('提交')
+	

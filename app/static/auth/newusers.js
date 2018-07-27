@@ -17,6 +17,8 @@ $.fn.reject=function(){
 }
 
 $(document).ready(function(){
+	$('#menu-user').attr('class','dropdown active');
+
 	$('#newusers').find('.accept').click(function(){
 		$(this).accept();
 	});

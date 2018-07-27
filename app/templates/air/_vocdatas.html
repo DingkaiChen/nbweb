@@ -1,0 +1,54 @@
+<table class="panel-heading" style="width:100%;">
+	<tr>
+		<td style="text-align:left; padding-left:15px;">
+			<h4>数据面板</h4>
+		</td>
+		<td style="text-align:right; padding-right:15px;">
+			<a class="btn btn-primary import" style="height:24px; vertical-align:center; padding-top:0; padding-bottom:0;" href="#" data-toggle="modal" data-target="#uploadModal">导入</a>
+			<a class="btn btn-primary" style="height:24px; vertical-align:center; padding-top:0; padding-bottom:0;" href="{{url_for('air.clearvocdata')}}">清空</a></td>
+		</td>
+	</tr>
+</table>
+<table class="table">
+	<tr>
+		<th scope="col">序号</th>
+		<th scope="col">监测时间</th>
+		<th scope="col">目标物</th>
+		{% for plot in plots %}
+		<th scope="col">{{ plot.plotname }}</th>
+		{% endfor %}
+		<th scope="col">操作</th>
+	<tr>
+	{% for datarow in datas %}
+	<tr scope="row" id="row-{{ loop.index }}">
+		<td>
+			{{ loop.index }}
+			<span id="rowid" style="display:none;">row-{{ loop.index }}</span>
+		</td>
+		<td>
+			<span id="time">{{ datarow[0].timestamp.strftime('%Y年%m月' ) }}</span>
+		</td>
+		<td>
+			<span id="typeid" style="display:none;">{{ datarow[0].voctype.id }}</span>
+			<span id="typename">{{ datarow[0].voctype.vocname }}</span>
+		</td>
+		{% for plot in plots %}
+		<td>
+			<span id="{{ plot.id }}">
+			{% for data in datarow %}
+			{% if data.airplot_id==plot.id %}
+			{{ "{:.3f}".format(data.value) }}
+			{% endif %}
+			{% endfor %}
+			</span>
+		</td>
+		{% endfor %}
+		<td>
+                        <a class="edit" href="#" data-toggle="modal" data-target="#editModal">编辑</a> |
+                        <a class="del" href="#" data-toggle="modal" data-target="#delModal">删除</a>
+                </td>
+
+	</tr>
+	{% endfor %}
+</table>
+
