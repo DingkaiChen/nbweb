@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block app_content %}
+	<h1>流域项管理</h1>
+	<div id='datas' class="panel panel-success">
+	{% include 'water/_watersheds.html' %}
+	</div>
+	{% include 'water/_addwatershedmodal.html' %}
+	{% include 'water/_editwatershedmodal.html' %}
+	{% include 'water/_delwatershedmodal.html' %}
+{% endblock %}
+
+{% block scripts %}
+	{{ super() }}
+	
+	<script type=text/javascript src="{{ url_for('static',filename='water/watershed.js') }}"></script>
+{% endblock %}
+

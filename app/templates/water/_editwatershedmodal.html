@@ -1,0 +1,26 @@
+<div class="modal fade" id="editModal" tabindex="-2" role="dialog" aria-labelledby="editModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<a class="close" data-dismiss="modal" aira-label="Close"><span aria-hidden="true">&times;</span></a>
+				<h4 class="modal-title" id="editModalLabel">编辑流域名称</h4>
+			</div>
+			<div class="modal-body">
+				<span id="watershedid" style="display:none;"></span>
+				<p style="padding-left:20px;">
+					<b>原流域名称：</b>
+					<span id="oldname"></span>
+				</p>
+				<p style="padding-left:20px;">
+					<b>新流域名称：</b>
+					<input id="rivername" type="text" val="">
+				</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default form-clearerrorinfo" data-dismiss="modal">取消</button>
+				<button id="edit-confirm" type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+			</div>
+		</div>
+	</div>
+</div>
+

@@ -1,0 +1,25 @@
+<div class="modal fade" id="delModal" tabindex="-2" role="dialog" aria-labelledby="delModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<a class="close" data-dismiss="modal" aira-label="Close"><span aria-hidden="true">&times;</span></a>
+				<h4 class="modal-title" id="delModalLabel">监测点位删除确认</h4>
+			</div>
+			<div class="modal-body">
+				<span id="plotid" style="display:none;"></span>
+				<p style="padding-left:20px;">
+					<span>确定要删除</span>
+					<b id="rivername"></b>
+					<span>监测点位</span>
+					<b id="plotname"></b>
+					<span>及其所有调查数据吗？</span>
+				</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default form-clearerrorinfo" data-dismiss="modal">取消</button>
+				<button id="del-confirm" type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+			</div>
+		</div>
+	</div>
+</div>
+

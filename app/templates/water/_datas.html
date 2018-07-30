@@ -1,0 +1,66 @@
+<table class="panel-heading" style="width:100%;">
+	<tr>
+		<td style="text-align:left; padding-left:15px;">
+			<h4>数据面板</h4>
+		</td>
+		<td style="text-align:right; padding-right:15px;">
+			<a class="btn btn-primary import" style="height:24px; vertical-align:center; padding-top:0; padding-bottom:0;" href="#" data-toggle="modal" data-target="#uploadModal">导入</a>
+		</td>
+	</tr>
+</table>
+<table class="table">
+	<tr>
+		<th scope="col">序号</th>
+		<th scope="col">监测点位</th>
+		<th scope="col">时间</th>
+		<th scope="col">潮位</th>
+		<th scope="col">天气</th>
+		{% for item in indicators %}
+		<th scope="col">
+			<span>{{ item.indicatorname }}</span>
+			{% if item.unit %}
+			<br>
+			<span>({{ item.unit }})</span>
+			{% endif %}
+		</th>
+		{% endfor %}
+		<th scope="col">操作</th>
+	</tr>
+	
+	{% for item in datas %}
+	<tr id="row-{{ loop.index }}" scope="row">
+		<td>
+			{{ loop.index }}
+			<span id="rowid" style="display:none;">row-{{ loop.index }}</span>
+		</td>
+		<td>
+			<span id="plotid" style="display:none;">{{ item[0].id }}</span>
+			<span id="plotname">{{ item[0].plotname }}</span>
+		</td>
+		<td>
+			<span id="timestamp">{{ item[1] }}</span>
+		</td>
+		<td>
+			<span id="tide">{{ item[2] }}</span>
+		</td>
+		<td>
+			<span id="weather">{{ item[3] }}</span>
+		</td>
+		{% for indicator in indicators %}
+		<td>
+			<span id="{{ indicator.id }}">
+			{% for data in item[4] %}
+			{% if data.indicator==indicator %}
+			{{ data.value }}
+			{% endif %}
+			{% endfor %}
+			</span>
+		</td>
+		{% endfor %}			
+		<td>
+			<a class="edit" href="#" data-toggle="modal" data-target="#editdataModal">编辑</a> | 
+			<a class="del" href="#" data-toggle="modal" data-target="#delModal">删除</a>
+		</td>
+	</tr>
+	{% endfor %}
+</table>

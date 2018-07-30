@@ -1,5 +1,85 @@
 {% extends 'base.html' %}
 
 {% block app_content %}
-	<h1>水环境质量监测数据</h1>
+<div id="alert" style="display:none;" role="alert"></div>
+<h1>水环境质量调查数据管理</h1>
+<div class="panel panel-success" id="editpnl">
+	<table class="panel-heading" style="width:100%;">
+		<tr>
+			<td style="text-align:left; padding-left:15px;">
+				<h4>操作面板</h4>
+			</td>
+			<td style="text-align:right; padding-right:15px;">
+				<img id="pnl-toggle" data-status='open' style="height:24px; vertical-align:center; padding-top:0;padding-bottom:0; width:24px; cursor:pointer;" src="../static/icons/up.png">
+			</td>
+		</tr>
+	</table>
+	<div class="panel-body">
+		<form action="" method="post" name="data">
+			{{ form.hidden_tag() }}
+			<input id="action" name="action" value="1" type="text" style="display:none;">
+			<table style="width:100%;">
+				<tr>
+					<td style="width:240px; padding:5px;">
+						{{ form.plots.label }}<br>
+						{{ form.plots(size=20) }}
+					</td>
+					<td style="width:240px; padding:5px;" >
+						{{ form.indicators.label }}<br>
+						{{ form.indicators(size=20) }}
+					</td>
+					<td style="width:240px; padding:5px;">
+						{{ form.times.label }}<br>
+						{{ form.times(size=20) }}
+					</td>
+					<td style="width:240px; padding:5px;">
+						{{ form.tides.label }}<br>
+						{{ form.tides(size=20) }}
+					</td>
+				</tr>
+				<tr>
+						<td style="text-align:left;padding-left:5px;">
+							{{ form.submit() }}
+						</td>
+						<td colspan='3' style="text-align:right; padding-right:5px;">
+							<span style="font-size:small; color:#444;">操作说明：按“Ctrl”可多选，按“Shift”可连选.</span>
+						</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+<div id='datas' class="panel panel-success">
+	{% include 'water/_datas.html' %}
+</div>
+<div id="query" style="display:none;">
+	<p id="plots">
+		{% for plot in plots %}
+		<span>{{ plot.id }}</span>
+		{% endfor %}
+	</p>
+	<p id="indicators">
+		{% for indicator in indicators %}
+		<span>{{ indicator.id }}</span>
+		{% endfor %}
+	</p>
+	<p id="tides">
+		{% for tide in tides %}
+		<span>{{ tide }}</span>
+		{% endfor %}
+	</p>
+	<p id="timestrs">
+		{% for timestr in timestrs %}
+		<span>{{ timestr }}</span>
+		{% endfor %}
+	</p>
+</div>	
+{% include 'water/_uploaddatamodal.html' %}
 {% endblock %}
+
+{% block scripts %}
+	{{ super() }}
+
+	<script type=text/javascript src="{{ url_for('static',filename='water/data.js') }}"></script>
+{% endblock %}
+

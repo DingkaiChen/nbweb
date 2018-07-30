@@ -1,0 +1,24 @@
+<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<a class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></a>
+				<h4 class="modal-title" id="uploadModalLabel">数据上传</h4>
+			</div>
+			<div class="modal-body">
+				<form action="" method=post enctype=multipart/form-data>
+					<p>
+						<input id="action" name="action" value="2" type="text" style="display:none;">
+						<input type='file' name='file'>
+						<hr>
+						<input type='submit' value="上传"> <input id='upload-cancel' type='button' data-dismiss="modal" value='取消'>
+						<button id="uploadtip" type="button" class="btn btn-default btn-sm" title='请严格按照下载模板格式上传EXCEL数据。“流域名称”、“样点”、“年度”、“月份”、“潮位”、“天气”六项标题内容和顺序不要更改。指标的单位用英文括号表示“如Cr(ug/L)”。指标名称及单位请与之前上传的数据保持一致，否则将作为新的指标另外存储。' data-toggle="tooltip" data-placement="top" style="background-color:tranparent;">上传说明</button>
+					</p>
+					<p>
+						<a id="downloadtemplate" target="_blank" href="{{ url_for('water.download_dataexample') }}">下载模板文件</a>
+					</p>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

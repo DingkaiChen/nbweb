@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block app_content %}
+	<h1>水质监测站点管理</h1>
+	<div id='datas' class="panel panel-success">
+	{% include 'water/_plots.html' %}
+	</div>
+	{% include 'water/_addplotmodal.html' %}
+	{% include 'water/_editplotmodal.html' %}
+	{% include 'water/_delplotmodal.html' %}
+{% endblock %}
+
+{% block scripts %}
+	{{ super() }}
+	
+	<script type=text/javascript src="{{ url_for('static',filename='water/plot.js') }}"></script>
+{% endblock %}
+

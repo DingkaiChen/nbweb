@@ -1,0 +1,43 @@
+<div class="modal fade" id="editModal" tabindex="-2" role="dialog" aria-labelledby="editModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<a class="close" data-dismiss="modal" aira-label="Close"><span aria-hidden="true">&times;</span></a>
+				<h4 class="modal-title" id="editModalLabel">修改监测点位信息</h4>
+			</div>
+			<div class="modal-body">
+				<span id="plotid" style="display:none;"></span>
+				<p style="padding-left:20px;">
+					<b>流域：</b>
+					<span id="rivername"></span>
+				</p>
+				<p style="padding-left:20px;">
+					<b>点位名称：</b>
+					<span id="oldname"></span>
+				</p>
+				<p style="padding-left:20px;">
+					<b>点位新名称：</b>
+					<input id="plotname" type="text" val="">
+				</p>
+				<p style="padding-left:20px;">
+					<b>经度：</b>
+					<input id="londegree" style="width:60px;" type="text" val="">°
+					<input id="lonminute" style="width:60px;" type="text" val="">'
+					<input id="lonsecond" style="width:80px;" type="text" val="">"
+				</p>	
+				<p style="padding-left:20px;">
+					<b>纬度：</b>
+					<input id="latdegree" style="width:60px;" type="text" val="">°
+					<input id="latminute" style="width:60px;" type="text" val="">'
+					<input id="latsecond" style="width:80px;" type="text" val="">"
+				</p>	
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default form-clearerrorinfo" data-dismiss="modal">取消</button>
+				<button id="edit-confirm" type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+			</div>
+		</div>
+	</div>
+</div>
+
