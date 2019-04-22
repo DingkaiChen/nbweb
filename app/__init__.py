@@ -5,6 +5,8 @@ from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_bootstrap import Bootstrap
 from flask_mail import Mail
+from logging.handlers import RotatingFileHandler
+import os
 
 db=SQLAlchemy()
 migrate=Migrate()
@@ -35,7 +37,7 @@ def create_app(config_class=Config):
 	app.register_blueprint(air_bp, url_prefix='/air')
 
 	from app.water import bp as water_bp
-	app.register_blueprint(water_bp)
+	app.register_blueprint(water_bp, url_prefix='/water')
 
 	from app.soil import bp as soil_bp
 	app.register_blueprint(soil_bp, url_prefix='/soil')
@@ -43,9 +45,22 @@ def create_app(config_class=Config):
 	from app.forest import bp as forest_bp
 	app.register_blueprint(forest_bp,url_prefix='/forest')
 
+	from app.society import bp as society_bp
+	app.register_blueprint(society_bp,url_prefix='/society')
+
 	from app.map import bp as map_bp
 	app.register_blueprint(map_bp)
 		
 	return app
+	
+	if not os.path.exists('logs'):
+		os.mkdir('logs')
+	file_handler=RotatingFileHandler('logs/microblog.log',maxBytes=10240,backupCount=10)
+	file_handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'))
+	file_handler_setLevel(logging.INFO)
+	app.logger.addHandler(file_handler)
+
+	app.logger.setLevel(logging.INFO)
+	app.logger.info('nbweb startup')
 
 from app import models

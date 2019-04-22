@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block app_content %}
+	<div id="alert" style="display:none;" role="alert"></div>
 	<h1>土壤调查样地数据管理</h1>
 	<div id='plots' class="panel panel-success">
 	{% include 'soil/_plots.html' %}

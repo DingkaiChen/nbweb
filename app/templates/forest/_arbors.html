@@ -7,10 +7,10 @@
 		</tr>
 		{% for item in arbors %}
 		<tr scope="row">
-			<td><span id="number">{{ item.number }}</span></td>
+			<td><span id="number">{{ item.number-item.forestplot_id*1000000 }}</span></td>
 			<td><span id='typeid' style="display:none;">{{ item.arbortype.id }}</span><span id='chnname'>{{ item.arbortype.chnname }}</span></td>
 			<td><span id='latinname'>{{ item.arbortype.latinname }}</td>
-			<td><a class="edit" href="#form" >编辑</a> | <a class="del" href="#" data-toggle="modal" data-target="#myModal" data-whatever="{{ item.number }}">删除</a></td>
+			<td><a class="edit" href="#form" >编辑</a> | <a class="del" href="#" data-toggle="modal" data-target="#myModal" data-whatever="{{ item.number-item.forestplot_id*1000000 }}">删除</a></td>
 		</tr>
 		{% endfor %}
 		<tr scope="row">

@@ -89,7 +89,15 @@
 						<a class="disabled">森林环境 </a>
 						{% endif %}
 					</li>
-					<li id="menu-economic"><a href="{{ url_for('main.index') }}">社会经济环境</a></li>
+					<li id="menu-economic">
+						{% if current_user.is_authenticated %}
+						{% if current_user.check_roles(['admin','society']) %}
+						<a href="{{ url_for('society.data') }}">社会经济环境</a>
+						{% else %}
+						<a class="disabled">社会经济环境</a>
+						{% endif %}
+						{% endif %}
+					</li>
 					{% if current_user.is_authenticated %}
 					{% if current_user.check_roles(['admin']) %}
 					<li id="menu-user" class="dropdown">

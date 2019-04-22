@@ -21,7 +21,17 @@ def airdata():
 		flash('您无权访问该页面')
 		return redirect(url_for('main.index'))
 	form=DataQueryForm()
-	form.plots.choices=[(item.plot.id,item.plot.plotname) for item in Airdata.query.group_by(Airdata.airplot_id).order_by(Airdata.airplot_id).all()]
+	#form.plots.choices=[(item.plot.id,item.plot.plotname) for item in Airdata.query.group_by(Airdata.airplot_id).order_by(Airdata.airplot_id).all()]
+	airdatas=Airdata.query.order_by(Airdata.airplot_id).all()
+	form.plots.choices=[]
+	existplot=None
+	if len(airdatas)>0:
+		existplot=airdatas[0].plot
+		for item in airdatas:
+			if item.plot!=existplot:
+				form.plots.choices.append((existplot.id,existplot.plotname))
+				existplot=item.plot
+		form.plots.choices.append((existplot.id,existplot.plotname))
 	form.plots.choices.insert(0,(-1,'全部'))
 	datas=[]
 	next_num=None
@@ -203,7 +213,17 @@ def vocdata():
 	form=VocQueryForm()
 	form.plots.choices=[(plot.id,plot.plotname) for plot in Airplot.query.order_by(Airplot.plotname).all()]
 	form.voctypes.choices=[(voctype.id,voctype.vocname) for voctype in Voctype.query.order_by(Voctype.vocname).all()]
-	form.timestamps.choices=[(item.timestamp.strftime("%Y-%m-%d"),item.timestamp.strftime("%Y年%m月")) for item in Vocdata.query.group_by(Vocdata.timestamp).order_by(Vocdata.timestamp).all()]
+	#form.timestamps.choices=[(item.timestamp.strftime("%Y-%m-%d"),item.timestamp.strftime("%Y年%m月")) for item in Vocdata.query.group_by(Vocdata.timestamp).order_by(Vocdata.timestamp).all()]
+	vocdatas=Vocdata.query.order_by(Vocdata.timestamp).all()
+	form.timestamps.choices=[]
+	existtime=None
+	if len(vocdatas)>0:
+		existtime=vocdatas[0].timestamp
+		for item in vocdatas:
+			if item.timestamp!=existtime:
+				form.timestamps.choices.append((existtime.strftime("%Y-%m-%d"),existtime.strftime("%Y年%m月")))
+				existtime=item.timestamp
+		form.timestamps.choices.append((existtime.strftime("%Y-%m-%d"),existtime.strftime("%Y年%m月")))
 	plots=[]	
 	timestrs=[]
 	voctypes=[]

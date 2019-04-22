@@ -133,7 +133,7 @@ def editplot():
 		return redirect(url_for('main.index'))
 	plotid=request.form['plotid']
 	plotname=request.form['plotname']
-	plot=waterplot.query.filter(Waterplot.plotname==plotname,Waterplot.id!=plotid).first()
+	plot=Waterplot.query.filter(Waterplot.plotname==plotname,Waterplot.id!=plotid).first()
 	if plot:
 		return 'fail1'
 	plot=Waterplot.query.filter_by(id=plotid).first()
@@ -180,8 +180,34 @@ def data():
 	form=WaterdataqueryForm()
 	form.plots.choices=[(plot.id,'流域：{}，监测点：{}'.format(plot.watershed.rivername,plot.plotname)) for plot in Waterplot.query.order_by(Waterplot.watershed_id,Waterplot.plotname).all()]
 	form.indicators.choices=[(indicator.id,'{}（{}）'.format(indicator.indicatorname,indicator.unit)) for indicator in Waterindicator.query.order_by(Waterindicator.indicatorname).all()]
-	form.times.choices=[(item.timestamp.strftime("%Y-%m-%d"),item.timestamp.strftime("%Y年%m月")) for item in Waterdata.query.group_by(Waterdata.timestamp).order_by(Waterdata.timestamp).all()]
-	form.tides.choices=[(item.tide,item.tide) for item in Waterdata.query.group_by(Waterdata.tide).order_by(Waterdata.tide).all()]
+	#form.times.choices=[(item.timestamp.strftime("%Y-%m-%d"),item.timestamp.strftime("%Y年%m月")) for item in Waterdata.query.group_by(Waterdata.timestamp).order_by(Waterdata.timestamp).all()]
+	wdatas=Waterdata.query.order_by(Waterdata.timestamp).all()
+	form.times.choices=[]
+	existtime=None
+	if len(wdatas)>0:
+		existtime=wdatas[0].timestamp
+		for item in wdatas:
+			if item.timestamp!=existtime:
+				form.times.choices.append((existtime.strftime("%Y-%m-%d"),existtime.strftime("%Y年%m月")))
+				existtime=item.timestamp
+		form.times.choices.append((existtime.strftime("%Y-%m-%d"),existtime.strftime("%Y年%m月")))
+	#form.tides.choices=[(item.tide,item.tide) for item in Waterdata.query.group_by(Waterdata.tide).order_by(Waterdata.tide).all()]
+	wdatas=Waterdata.query.order_by(Waterdata.tide).all()
+	form.tides.choices=[]
+	existtide=None
+	if len(wdatas)>0:
+		existtide=wdatas[0].tide
+		for item in wdatas:
+			if item.tide!=existtide:
+				if existtide.strip(' ')=='':
+					form.tides.choices.append((existtide,'（空）'))
+				else:	
+					form.tides.choices.append((existtide,existtide))
+				existtide=item.tide
+		if existtide.strip(' ')=='':
+			form.tides.choices.append((existtide,'（空）'))
+		else:	
+			form.tides.choices.append((existtide,existtide))
 	datas=[]
 	indicators=[]
 	plots=[]
@@ -189,35 +215,20 @@ def data():
 	tides=[]
 	if request.method=='POST':
 		if request.form['action']=='1':#'1':QUERY; '2':UPLOAD
-			plots=Waterplot.query.filter(Waterplot.id.in_(form.plots.data)).all()
+			plots=Waterplot.query.filter(Waterplot.id.in_(form.plots.data)).order_by(Waterplot.plotname).all()
 			indicators=Waterindicator.query.filter(Waterindicator.id.in_(form.indicators.data)).order_by(Waterindicator.id).all()
 			tides=form.tides.data
 			timestamps=[]
 			for item in form.times.data:
 				timestamps.append(datetime.strptime(item,"%Y-%m-%d"))
 				timestrs.append(item)
-			for item in timestamps:
-				print(item)
-			ds=Waterdata.query.all()
-			d=ds[0]
-			print(d.plot)
-			print(d.timestamp)
-			print(d.tide)
-			print(d.waterindicator_id)
-			print(d.indicator.indicatorname)
 			for plot in plots:
 				for timestamp in timestamps:
 					for tide in tides:
-						print(plot)
-						print(timestamp)
-						print(tide)
-						print(form.indicators.data)
-						data=Waterdata.query.filter(Waterdata.plot==plot,Waterdata.timestamp==timestamp,Waterdata.tide=='高潮',Waterdata.waterindicator_id.in_(form.indicators.data)).all()
-						print(data)
+						data=Waterdata.query.filter(Waterdata.plot==plot,Waterdata.timestamp==timestamp,Waterdata.tide==tide,Waterdata.waterindicator_id.in_(form.indicators.data)).all()
 						if len(data)>0:
 							waterdata=[plot,timestamp.strftime("%Y年%m月"),tide,data[0].weather,data]
 							datas.append(waterdata)
-			print(datas)
 		elif request.form['action']=='2':
 			file=request.files['file']
 			if file and allowed_file(file.filename):
@@ -246,8 +257,28 @@ def data():
 						flash('数据上传失败！'+result[1])
 					hassheet=True
 					form.indicators.choices=[(indicator.id,'{}（{}）'.format(indicator.indicatorname,indicator.unit)) for indicator in Waterindicator.query.order_by(Waterindicator.indicatorname).all()]
-					form.times.choices=[(item.timestamp.strftime("%Y-%m-%d"),item.timestamp.strftime("%Y年%m月")) for item in Waterdata.query.group_by(Waterdata.timestamp).order_by(Waterdata.timestamp).all()]
-					form.tides.choices=[(item.tide,item.tide) for item in Waterdata.query.group_by(Waterdata.tide).order_by(Waterdata.tide).all()]
+					#form.times.choices=[(item.timestamp.strftime("%Y-%m-%d"),item.timestamp.strftime("%Y年%m月")) for item in Waterdata.query.group_by(Waterdata.timestamp).order_by(Waterdata.timestamp).all()]
+					wdatas=Waterdata.query.order_by(Waterdata.timestamp).all()
+					form.times.choices=[]
+					existtime=None
+					if len(wdatas)>0:
+						existtime=wdatas[0].timestamp
+						for item in wdatas:
+							if item.timestamp!=existtime:
+								form.times.choices.append((existtime.strftime("%Y-%m-%d"),existtime.strftime("%Y年%m月")))
+								existtime=item.timestamp
+						form.times.choices.append((existtime.strftime("%Y-%m-%d"),existtime.strftime("%Y年%m月")))
+					#form.tides.choices=[(item.tide,item.tide) for item in Waterdata.query.group_by(Waterdata.tide).order_by(Waterdata.tide).all()]
+					wdatas=Waterdata.query.order_by(Waterdata.tide).all()
+					form.tides.choices=[]
+					existtide=None
+					if len(wdatas)>0:
+						existtide=wdatas[0].tide
+						for item in wdatas:
+							if item.tide!=existtide:
+								form.tides.choices.append((existtide,existtide))
+								existtide=item.tide
+						form.tides.choices.append((existtide,existtide))
 				if hassheet==False:
 					flash('文件中未找到数据表，请上传规范格式的文件，具体请参考模板。')
 			else:

@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block app_content %}
+	<div id="alert" style="display:none;" role="alert"></div>
 	<h1>土壤监测指标项管理</h1>
 	<div id='indicators' class="panel panel-success">
 	{% include 'soil/_indicators.html' %}
@@ -20,7 +21,7 @@
 							{{ form.action }}
 						</p>
 						<p class="form-validgroup">
-							<span id="edit-name"></span>
+							<b>指标项 <span id="edit-name"></span> </b>
 						</p>
 						<p>
 							{{ form.symbol.label }}
@@ -33,6 +34,20 @@
 						<p>
 							{{ form.indicatortype.label }}
 							{{ form.indicatortype }}
+						</p>
+						<p>
+							{{ form.dland_standard.label }}
+							{{ form.dland_standard }}
+						</p>
+						<p>
+							{{ form.aland_standard_ph1.label }}
+							{{ form.aland_standard_ph1 }}
+							{{ form.aland_standard_ph2.label }}
+							{{ form.aland_standard_ph2 }}
+							{{ form.aland_standard_ph3.label }}
+							{{ form.aland_standard_ph3 }}
+							{{ form.aland_standard_ph4.label }}
+							{{ form.aland_standard_ph4 }}
 						</p>
 					</div>
 					<div class="modal-footer">

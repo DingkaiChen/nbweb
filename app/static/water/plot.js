@@ -13,6 +13,7 @@ $.fn.editdata=function(){
 	var latdegree=row.find('#latdegree').text();
 	var latminute=row.find('#latminute').text();
 	var latsecond=row.find('#latsecond').text();
+	$('#editModal').find('#plotid').text(id);
 	$('#editModal').find('#rivername').text(rivername);
 	$('#editModal').find('#oldname').text(plotname);
 	$('#editModal').find('#plotname').val(plotname);

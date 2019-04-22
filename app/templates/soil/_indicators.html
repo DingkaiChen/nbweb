@@ -3,12 +3,20 @@
 </table>
 <table class="table">
 	<tr>
-		<th scope="col">序号</th>
-		<th scope="col">指标名称</th>
-		<th scope="col">符号</th>
-		<th scope="col">单位</th>
-		<th scope="col">类型</th>
-		<th scope="col">操作</th>
+		<th scope="col" rowspan="2" style="vertical-align:middle;">序号</th>
+		<th scope="col" rowspan="2" style="vertical-align:middle;">指标名称</th>
+		<th scope="col" rowspan="2" style="vertical-align:middle;">符号</th>
+		<th scope="col" rowspan="2" style="vertical-align:middle;">单位</th>
+		<th scope="col" rowspan="2" style="vertical-align:middle;">类型</th>
+		<th scope="col" rowspan="2" style="vertical-align:middle;">建设用地标准值</th>
+		<th scope="col" colspan="4" style="text-align:center;">农业用地标准值</th>
+		<th scope="col" style="vertical-align:middle;">操作</th>
+	</tr>
+	<tr>
+		<th scope="col">PH≥5.5</th>
+		<th scope="col">5.5&lt;PH≤6.5</th>
+		<th scope="col">6.5&lt;PH≤7.5</th>
+		<th scope="col">PH≥7.5</th>
 	</tr>
 	{% for indicator in indicators %}
 	<tr scope="row">
@@ -25,6 +33,31 @@
 			{% endif %}
 		</td>
 		<td><span id="indicatortype">{{ indicator.indicatortype }}</span></td>
+		<td>
+			{% if indicator.dland_standard %}
+			<span id="dland_standard">{{ indicator.dland_standard }}</span>
+			{% endif %}
+		</td>
+		<td>
+			{% if indicator.aland_standard_ph1 %}
+			<span id="aland_standard_ph1">{{ indicator.aland_standard_ph1 }}</span>
+			{% endif %}
+		</td>
+		<td>
+			{% if indicator.aland_standard_ph2 %}
+			<span id="aland_standard_ph2">{{ indicator.aland_standard_ph2 }}</span>
+			{% endif %}
+		</td>
+		<td>
+			{% if indicator.aland_standard_ph3 %}
+			<span id="aland_standard_ph3">{{ indicator.aland_standard_ph3 }}</span>
+			{% endif %}
+		</td>
+		<td>
+			{% if indicator.aland_standard_ph4 %}
+			<span id="aland_standard_ph4">{{ indicator.aland_standard_ph4 }}</span>
+			{% endif %}
+		</td>
 		<td><a class="edit" href="#"  data-toggle="modal" data-target="#editModal" >编辑</a> | <a class="del" href="#" data-toggle="modal" data-target="#delModal" >删除</a></td>
 	</tr>
 	{% endfor %}

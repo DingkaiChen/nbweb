@@ -68,41 +68,6 @@ require([
         geometry: waterPoints,
         symbol: symbolA
     });
-    //view.graphics.add(graphicA);
-
-    /*---Add water plus plots into view---*/
-    /*var symbolF1 = new SimpleMarkerSymbol({
-        style: "cross",
-        size: 6,
-        outline: { // autocasts as new SimpleLineSymbol()
-            color: [40, 119, 226],
-            width: 2
-        }
-    });
-    var symbolF2 = new SimpleMarkerSymbol({
-        style: "cross",
-        size: 8,
-        outline: { // autocasts as new SimpleLineSymbol()
-            color: [255,255,255],
-            width: 4
-        }
-    });*/
-    var waterPoints = new Multipoint();
-    dojo.query(".WaterPlusPlots div").forEach(function (item) {
-        var x = item.getElementsByTagName("p");
-        waterPoints.addPoint(new Point({
-            longitude: x[0].innerText,
-            latitude: x[1].innerText
-        }));
-    });
-    /*var graphicF1 = new Graphic({
-        geometry: waterPoints,
-        symbol: symbolF1
-    });
-    var graphicF2= new Graphic({
-        geometry: waterPoints,
-        symbol: symbolF2
-    });*/
 
     /*---Add vegi plots into view---*/
     var symbolB = new SimpleMarkerSymbol({
@@ -147,31 +112,6 @@ require([
         geometry: airRoutinePoints,
         symbol: symbolD
     });
-    //view.graphics.add(graphicD);
-
-    /*---Add air VOC plots into view---*/
-    /*var symbolE = new SimpleMarkerSymbol({
-        style: "diamond",
-        size: 10,
-        outline: { // autocasts as new SimpleLineSymbol()
-            color: [255, 0, 40],
-            width: 1
-        }
-    });
-    var airVOCPoints = new Multipoint();
-    dojo.query(".AirVOCPlots div").forEach(function (item) {
-        var x = item.getElementsByTagName("p");
-        airVOCPoints.addPoint(new Point({
-            longitude: x[0].innerText,
-            latitude: x[1].innerText
-        }));
-    });
-    var graphicE = new Graphic({
-        geometry: airVOCPoints,
-        symbol: symbolE
-    });
-    //view.graphics.add(graphicE);*/
-
 
     /*---Create a Graphics Layer---*/
     var soilLayer = new GraphicsLayer();
@@ -192,8 +132,6 @@ require([
     var waterLayer = new GraphicsLayer();
     waterLayer.title = "water monitor plots";
     waterLayer.graphics.add(graphicA);
-    //waterLayer.graphics.add(graphicF2);
-    //waterLayer.graphics.add(graphicF1);
     map.add(waterLayer);
 
 

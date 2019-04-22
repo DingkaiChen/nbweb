@@ -1,0 +1,31 @@
+<div class="modal fade" id="delModal" tabindex="-1" role="dialog" aria-labelledby="delModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+				<div class="modal-header">
+					<a class="close" data-dismiss="modal" aira-label="Close"><span aria-hidden="true">&times;</span></a>
+					<h4 class="modal-title" id="delModalLabel">删除数据</h4>
+				</div>
+				<div class="modal-body">
+					<p>
+						<b>指标：</b>
+						<span id="del-indicator"></span>
+						<span style="display:none;" id="del-indicator-id"></span>
+					</p>
+					<p>
+						<b>年份：</b>
+						<select id="del-year" name="del-year">
+							<option value="0">全部</option>
+							{% for item in years %}
+							<option value="{{ item }}">{{ item }}</option>
+							{% endfor %}
+						</select>
+					</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default form-clearerrorinfo" data-dismiss="modal">取消</button>
+					<button id="del-confirm" type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

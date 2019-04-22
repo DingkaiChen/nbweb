@@ -97,20 +97,24 @@ def arborsample():
 		flash('查询样地数据不存在！')
 		return redirect(url_for("forest.plot"))
 	form=ArborsampleForm()
-	form.arbor.choices=[(arbor.id,'编号{}：{}'.format(arbor.number,arbor.arbortype.chnname)) for arbor in Arbor.query.filter_by(plot=plot).order_by(Arbor.number).all()]
+	form.arbor.choices=[(arbor.id,'编号{}：{}'.format(arbor.number-arbor.plot.id*1000000,arbor.arbortype.chnname)) for arbor in Arbor.query.filter_by(plot=plot).order_by(Arbor.number).all()]
 	if form.validate_on_submit():
 		if form.id.data==0:
 			arbor=Arbor.query.filter_by(id=form.arbor.data).first()
 			timestamp=datetime.strptime(str(form.timestamp.data),'%Y-%m-%d')
-			arborsample=Arborsample(arbor=arbor,timestamp=timestamp,\
-				canopy_side1=form.canopyside1.data,\
-				canopy_side2=form.canopyside2.data,\
-				diameter=form.diameter.data,\
-				height=form.height.data,\
-				note=form.note.data)
-			db.session.add(arborsample)
-			db.session.commit()
-			flash('数据添加成功')
+			arborsample=Arborsample.query.filter(Arborsample.arbor_id==arbor.id,Arborsample.timestamp==timestamp).first()
+			if arborsample:
+				flash('数据已存在，添加失败！')
+			else:
+				arborsample=Arborsample(arbor=arbor,timestamp=timestamp,\
+					canopy_side1=form.canopyside1.data,\
+					canopy_side2=form.canopyside2.data,\
+					diameter=form.diameter.data,\
+					height=form.height.data,\
+					note=form.note.data)
+				db.session.add(arborsample)
+				db.session.commit()
+				flash('数据添加成功')
 		else:
 			timestamp=datetime.strptime(str(form.timestamp.data),'%Y-%m-%d')
 			arborsample=Arborsample.query.filter(Arborsample.arbor_id==form.arbor.data,Arborsample.timestamp==timestamp).first()
@@ -126,18 +130,25 @@ def arborsample():
 				flash('数据编辑失败.')
 		time=str(form.timestamp.data)
 	arborids=[arbor.id for arbor in plot.arbors]
-	samples_bytime=Arborsample.query.filter(Arborsample.arbor_id.in_(arborids)).group_by(Arborsample.timestamp).order_by(Arborsample.timestamp.desc()).all()
-	samples=[]
+	#samples_bytime=Arborsample.query.filter(Arborsample.arbor_id.in_(arborids)).group_by(Arborsample.timestamp).order_by(Arborsample.timestamp.desc()).all()
+	asamples=Arborsample.query.filter(Arborsample.arbor_id.in_(arborids)).order_by(Arborsample.timestamp.desc()).all()
 	times=[]
-	for sample_bytime in samples_bytime:
-		times.append(sample_bytime.timestamp.strftime('%Y-%m-%d'))
+	etime=None
+	if len(asamples)>0:
+		etime=asamples[0].timestamp
+		for item in asamples:
+			if item.timestamp!=etime:
+				times.append(etime.strftime('%Y-%m-%d'))
+				etime=item.timestamp
+		times.append(etime.strftime('%Y-%m-%d'))
+	samples=[]
 	if time:
 		timestamp=datetime.strptime(time,'%Y-%m-%d')
 		samples=Arborsample.query.join(Arborsample.arbor).filter(Arborsample.arbor_id.in_(arborids),Arborsample.timestamp==timestamp).order_by(Arbor.number).all()
 	else:
-		if samples_bytime:
-			timestamp=samples_bytime[0].timestamp
-			time=samples_bytime[0].timestamp.strftime('%Y-%m-%d')
+		if len(times)>0:
+			timestamp=datetime.strptime(times[0],'%Y-%m-%d')
+			time=times[0]
 			samples=Arborsample.query.filter(Arborsample.arbor_id.in_(arborids),Arborsample.timestamp==timestamp).join(Arborsample.arbor).order_by(Arbor.number).all()		
 		else:
 			time=""
@@ -252,13 +263,13 @@ def arbor(plotid):
 		form.chnname.choices=[(arbortype.id,arbortype.chnname) for arbortype in Arbortype.query.order_by(Arbortype.chnname).all()]
 		if form.validate_on_submit():
 			if form.id.data==0:#Add
-				existarbor=Arbor.query.filter(Arbor.number==form.number.data,Arbor.plot==plot).first()
+				existarbor=Arbor.query.filter(Arbor.number==form.number.data+plot.id*1000000,Arbor.plot==plot).first()
 				if existarbor is None:
 					arbortype=Arbortype.query.filter_by(id=form.chnname.data).first()
 					if arbortype:
 						arbor=Arbor(arbortype=arbortype,
 							plot=plot,
-							number=form.number.data)
+							number=form.number.data+plot.id*1000000)
 						db.session.add(arbor)
 						db.session.commit()
 						flash('树种数据 <编号：{}> 添加成功！'.format(form.number.data))
@@ -269,7 +280,7 @@ def arbor(plotid):
 			else:#Edit
 				arbortype=Arbortype.query.filter_by(id=form.chnname.data).first()
 				if arbortype:
-					arbor=Arbor.query.filter(Arbor.number==form.number.data,Arbor.plot==plot).first()
+					arbor=Arbor.query.filter(Arbor.number==form.number.data+plot.id*1000000,Arbor.plot==plot).first()
 					if arbor:
 						arbor.arbortype=arbortype
 						db.session.commit()
@@ -293,7 +304,7 @@ def delarbor():
 	if plot is None:
 		return 'fail'
 	else:
-		arbor=Arbor.query.filter(Arbor.number==number,Arbor.plot==plot).first()
+		arbor=Arbor.query.filter(Arbor.number==number+plot.id*1000000,Arbor.plot==plot).first()
 		if arbor is None:
 			return 'fail'
 		else:
@@ -400,7 +411,17 @@ def herb():
 	if not current_user.check_roles(['admin','forest']):
 		flash('您无权访问该页面')
 		return redirect(url_for('main.index'))
-	times=[sample.timestamp.strftime('%Y-%m-%d') for sample in Herbsample.query.group_by(Herbsample.timestamp).order_by(Herbsample.timestamp.desc()).all()]
+	#times=[sample.timestamp.strftime('%Y-%m-%d') for sample in Herbsample.query.group_by(Herbsample.timestamp).order_by(Herbsample.timestamp.desc()).all()]
+	hsamples=Herbsample.query.order_by(Herbsample.timestamp.desc()).all()
+	times=[]
+	etime=None
+	if len(hsamples)>0:
+		etime=hsamples[0].timestamp
+		for item in hsamples:
+			if item.timestamp!=etime:
+				times.append(etime.strftime('%Y-%m-%d'))
+				etime=item.timestamp
+		times.append(etime.strftime('%Y-%m-%d'))
 	if request.method=="GET":
 		plotid=request.args.get('plotid')
 		time=request.args.get('time')

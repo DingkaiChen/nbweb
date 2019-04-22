@@ -30,6 +30,11 @@ class SoilindicatorForm(FlaskForm):
 	indicatorname=StringField('指标名称',validators=[DataRequired()])
 	symbol=StringField('符号')
 	unit=StringField('单位')
+	dland_standard=FloatField('建设用地管控标准值')
+	aland_standard_ph1=FloatField('PH<=5.5')
+	aland_standard_ph2=FloatField('5.5&lt;PH<=6.5')
+	aland_standard_ph3=FloatField('6.5&lt;PH<=7.5')
+	aland_standard_ph4=FloatField('PH>=7.5')
 	indicatortype=SelectField('指标类型')
 	submit=SubmitField('提交')
 	

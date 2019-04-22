@@ -11,14 +11,14 @@
 		</tr>
 		{% for item in samples %}
 		<tr scope="row">
-			<td><span id="id" style='display:none;'>{{item.id}}</span><span id="arborid" style='display:none;'>{{item.arbor.id}}</span>{{ item.arbor.number }}</td>
+			<td><span id="id" style='display:none;'>{{item.id}}</span><span id="arborid" style='display:none;'>{{item.arbor.id}}</span>{{ item.arbor.number-item.arbor.forestplot_id*1000000 }}</td>
 			<td>{{ item.arbor.arbortype.chnname }}</td>
 			<td>{{ item.arbor.arbortype.latinname }}</td>
 			<td><span id="canopyside1">{{ item.canopy_side1 }}</span>*<span id="canopyside2">{{ item.canopy_side2 }}</span></td>
 			<td><span id="diameter">{{ item.diameter }}</span></td>
 			<td><span id="height">{{ item.height }}</span></td>
 			<td><span id="note">{{ item.note }}</span></td>
-			<td><a class="edit" href="#form" >编辑</a> | <a class="del" href="#" data-toggle="modal" data-target="#delModal" data-whatever="{{ item.arbor.number }}">删除</a></td>
+			<td><a class="edit" href="#form" >编辑</a> | <a class="del" href="#" data-toggle="modal" data-target="#delModal" data-whatever="{{ item.arbor.number-item.arbor.forestplot_id*1000000 }}">删除</a></td>
 		</tr>
 		{% endfor %}
 		<tr scope="row">

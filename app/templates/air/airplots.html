@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block app_content %}
+	<div id="alert" style="display:none;" role="alert"></div>
 	<h1>空气质量监测站点管理</h1>
 	<div id='plots' class="panel panel-success">
 	{% include 'air/_plots.html' %}

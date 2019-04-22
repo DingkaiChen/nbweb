@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block app_content %}
+<div id="alert" style="display:none;" role="alert"></div>
+<h1>社会经济调查数据</h1>
+<div class="panel panel-success" id="editpnl">
+	<table class="panel-heading" style="width:100%;">
+		<tr>
+			<td style="text-align:left; padding-left:15px;">
+				<h4>操作面板</h4>
+			</td>
+			<td style="text-align:right; padding-right:15px;">
+				<img id="pnl-toggle" data-status='open' style="height:24px; vertical-align:center; padding-top:0;padding-bottom:0; width:24px; cursor:pointer;" src="../static/icons/up.png">
+			</td>
+		</tr>
+	</table>
+	<div class="panel-body">
+		<form action="" method="post" name="data">
+			{{ form.hidden_tag() }}
+			<input id="action" name="action" value="1" type="text" style="display:none;">
+			<table style="width:100%;">
+				<tr>
+					<td style="width:480px; padding:5px;">
+						{{ form.indicators.label }}<br>
+						{{ form.indicators(size=20) }}
+					</td>
+					<td style="width:240px; padding:5px;">
+						{{ form.years.label }}<br>
+						{{ form.years(size=20) }}
+					</td>
+				</tr>
+				<tr>
+						<td style="text-align:left;padding-left:5px;">
+							{{ form.submit() }}
+						</td>
+						<td style="text-align:right; padding-right:5px;">
+							<span style="font-size:small; color:#444;">操作说明：按“Ctrl”可多选，按“Shift”可连选.</span>
+						</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+<div id='datas' class="panel panel-success">
+	{% include 'society/_datas.html' %}
+</div>
+<div id="query" style="display:none;">
+	<p id="indicators">
+		{% for indicator in indicators %}
+		<span>{{ indicator.id }}</span>
+		{% endfor %}
+	</p>
+	<p id="years">
+		{% for year in years %}
+		<span>{{ year }}</span>
+		{% endfor %}
+	</p>
+</div>	
+{% include 'society/_deldatamodal.html' %}
+{% include 'society/_editdatamodal.html' %}
+{% endblock %}
+
+{% block scripts %}
+	{{ super() }}
+
+	<script type=text/javascript src="{{ url_for('static',filename='society/data.js') }}"></script>
+{% endblock %}
+

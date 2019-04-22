@@ -166,7 +166,17 @@ def data():
 		return redirect(url_for('main.index'))
 	form=SoildataqueryForm()
 	form.plots.choices=[(plot.id,plot.plotname) for plot in Soilplot.query.all()]
-	form.years.choices=[(item.year,str(item.year)) for item in Soildata.query.group_by(Soildata.year).all()]
+	#form.years.choices=[(item.year,str(item.year)) for item in Soildata.query.group_by(Soildata.year).all()]
+	soildatas=Soildata.query.order_by(Soildata.year).all()
+	form.years.choices=[]
+	existyear=None
+	if len(soildatas)>0:
+		existyear=soildatas[0].year
+		for item in soildatas:
+			if item.year!=existyear:
+				form.years.choices.append((existyear,str(existyear)))
+				existyear=item.year
+		form.years.choices.append((existyear,str(existyear)))
 	form.indicators.choices=[(indicator.id,indicator.indicatorname) for indicator in Soilindicator.query.all()]
 	soildatas=[]
 	indicators=[]
@@ -205,7 +215,17 @@ def data():
 						else:
 							flash('数据上传失败！'+result[1])
 						hassheet=True
-						form.years.choices=[(item.year,str(item.year)) for item in Soildata.query.group_by(Soildata.year).all()]
+						#form.years.choices=[(item.year,str(item.year)) for item in Soildata.query.group_by(Soildata.year).all()]
+						sdatas=Soildata.query.order_by(Soildata.year).all()
+						form.years.choices=[]
+						existyear=None
+						if len(sdatas)>0:
+							existyear=sdatas[0].year
+							for item in sdatas:
+								if item.year!=existyear:
+									form.years.choices.append((existyear,str(existyear)))
+									existyear=item.year
+							form.years.choices.append((existyear,str(existyear)))
 						form.indicators.choices=[(indicator.id,indicator.indicatorname) for indicator in Soilindicator.query.all()]
 				if hassheet==False:
 					flash('上传文件中未找到以年份命名的数据表。请上传规范格式的文件，具体请参考模板。')
@@ -273,11 +293,16 @@ def editdata():
 	if not current_user.check_roles(['admin','soil']):
 		flash('您无权访问该页面')
 		return redirect(url_for('main.index'))
-	try:
+#	try:
+	if True:
 		plotid=request.form['plotid']
 		year=request.form['year']
 		indicatorid=request.form['indicatorid']
-		value=request.form['value']
+		value=float(request.form['value'])
+		#a=value/1
+		#a=value+1
+		#if value>1:
+		#	a=a+1
 		plotids=request.form['plots']
 		years=request.form['years']
 		indicatorids=request.form['indicators']
@@ -301,8 +326,8 @@ def editdata():
 					soildata=[plot,year,data]
 					soildatas.append(soildata)
 		return render_template('soil/_datas.html',datas=soildatas,indicators=indicators)
-	except:
-		return 'fail'
+#	except:
+#		return 'fail'
 
 
 @bp.route("/indicator",methods=["GET","POST"])
@@ -329,6 +354,11 @@ def indicator():
 			if indicator:
 				indicator.symbol=form.symbol.data
 				indicator.unit=form.unit.data
+				indicator.dland_standard=form.dland_standard.data
+				indicator.aland_standard_ph1=form.aland_standard_ph1.data
+				indicator.aland_standard_ph2=form.aland_standard_ph2.data
+				indicator.aland_standard_ph3=form.aland_standard_ph3.data
+				indicator.aland_standard_ph4=form.aland_standard_ph4.data
 				indicator.indicatortype=form.indicatortype.data
 				db.session.commit()
 				flash('土壤监测指标项 <{}> 编辑成功！'.format(indicator.indicatorname))

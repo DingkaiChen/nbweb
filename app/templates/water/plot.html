@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block app_content %}
+	<div id="alert" style="display:none;" role="alert"></div>
 	<h1>水质监测站点管理</h1>
 	<div id='datas' class="panel panel-success">
 	{% include 'water/_plots.html' %}

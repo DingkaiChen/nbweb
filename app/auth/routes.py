@@ -94,7 +94,6 @@ def newusers():
 		flash('非系统管理员用户无权访问该页面')
 		return redirect(url_for('main.index'))
 	newusers=Register.query.filter_by(verified=1).all()
-	print(newusers)
 	return render_template('auth/newusers.html',title='用户审核',newusers=newusers)
 	
 @bp.route('/acceptnewuser',methods=['POST'])

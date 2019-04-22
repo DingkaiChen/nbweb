@@ -1,9 +1,14 @@
-$.fn.editplot=function(){
+$.fn.editindicator=function(){
 	var row=$(this).parent().parent();
 	var id=row.find('#indicatorid').text();
 	var indicatorname=row.find('#indicatorname').text();
 	var symbol=row.find('#symbol').text();
 	var unit=row.find('#unit').text();
+	var dland=row.find('#dland_standard').text();
+	var ph1=row.find('#aland_standard_ph1').text();
+	var ph2=row.find('#aland_standard_ph2').text();
+	var ph3=row.find('#aland_standard_ph3').text();
+	var ph4=row.find('#aland_standard_ph4').text();
 	var indicatortype=row.find('#indicatortype').text();
 	$('#editModal').find('#action').val('1');
 	$('#editModal').find('#id').val(id);
@@ -11,11 +16,15 @@ $.fn.editplot=function(){
 	$('#editModal').find('#indicatortype').val(indicatortype);
 	$('#editModal').find('#symbol').val(symbol);
 	$('#editModal').find('#unit').val(unit);
+	$('#editModal').find('#dland_standard').val(dland);
+	$('#editModal').find('#aland_standard_ph1').val(ph1);
+	$('#editModal').find('#aland_standard_ph2').val(ph2);
+	$('#editModal').find('#aland_standard_ph3').val(ph3);
+	$('#editModal').find('#aland_standard_ph4').val(ph4);
 	$('#editModal').find('#submit').val('确定');
-	$('#editModal').find('.modal-header').text('编辑样地');
 }
 
-$.fn.delplot=function(){
+$.fn.delindicator=function(){
 	var row=$(this).parent().parent();
 	var id=row.find('#indicatorid').text();
 	var indicatorname=row.find('#indicatorname').text();
@@ -28,9 +37,9 @@ $.fn.delplot=function(){
 $(document).ready(function(){
 	$('#menu-soil').attr('class','dropdown active');
 	$('.del').click(function(){
-		$(this).delplot();
+		$(this).delindicator();
 	});
 	$('.edit').click(function(){
-		$(this).editplot();
+		$(this).editindicator();
 	});
 });
