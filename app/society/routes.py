@@ -32,7 +32,7 @@ def data():
 				form.years.choices.append((existyear,str(existyear)))
 				existyear=item.year
 		form.years.choices.append((existyear,str(existyear)))
-	form.indicators.choices=[(indicator.id,indicator.indicatorname) for indicator in Societyindicator.query.all()]
+	form.indicators.choices=[(indicator.id,'{} --> {}'.format(indicator.societyclass.classname,indicator.indicatorname)) for indicator in Societyindicator.query.order_by(Societyindicator.class_id,Societyindicator.indicatorname).all()]
 	societydatas=[]
 	indicators=[]
 	years=[]
