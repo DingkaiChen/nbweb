@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block app_content %}
+	<div id="alert" style="display:none;" role="alert"></div>
+	<h1>水环境物联网监测数据</h1>
+	<div id="editpnl" class="panel panel-success">
+		<table class="panel-heading" style="width:100%;">
+			<tr>
+				<td style="text-align:left; padding-left:15px;">
+					<h4>查询面板</h4>
+				</td>
+				<td style="text-align:right; padding-right:15px;">
+					<img id="pnl-toggle" data-status="open" style="height:24px; vertical-align:center; padding-top:0; padding-bottom:0; width:24px; cursor:pointer;" src="../static/icons/up.png">
+				</td>
+			</tr>
+		</table>
+		<div class="panel-body">
+			<form action="" method="post" name="realdata">
+				{{ form.hidden_tag() }}
+				<table style="width:100%">
+					<tr>
+						<td style="vertical-align:bottom; width:240px; padding:5px;">
+							<b>监测点：</b><br>
+							{{ form.plots }}
+							{% for error in form.plots.errors %}
+							<span style="color:red;">[{{error}}]</span>
+							{% endfor %}
+						</td>
+						<td style="vertical-align:bottom; width:240px; padding:5px;">
+							<b>开始时间：</b><br>
+							{{ form.timestart(size=24) }}
+						</td>
+						<td style="vertical-align:bottom; width:240px; padding:5px;">
+							<b>结束时间：</b><br>
+							{{ form.timeend(size=24) }}
+						</td>
+						<td style="vertical-align:bottom; text-align:left;padding:5px;">
+							{{ form.submit() }}
+						</td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td colspan='3' style="text-align:left; padding-left:5px;">
+							<span style="font-size:small; color:#444;">操作说明：时间输入请严格参照格式'2008-09-10 19:10:00'</span>
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
+	</div>
+	<div id="datas" class="panel panel-success">
+		{% include "water/_realdatas.html" %}
+	</div>
+{% endblock %}
+
+{% block scripts %}
+	{{ super() }}
+	
+	<script type=text/javascript src="{{ url_for('static',filename='water/realdata.js') }}"></script>
+{% endblock %}

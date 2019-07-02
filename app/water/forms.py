@@ -8,3 +8,9 @@ class WaterdataqueryForm(FlaskForm):
 	times=SelectMultipleField('时间',coerce=str,validators=[DataRequired()])
 	tides=SelectMultipleField('潮位',coerce=str,validators=[DataRequired()])
 	submit=SubmitField('查询')
+
+class WaterrealdataqueryForm(FlaskForm):
+	plots=SelectField('监测点',coerce=int,validators=[DataRequired()])
+	timestart=StringField('开始时间',validators=[DataRequired()])
+	timeend=StringField('结束时间',validators=[DataRequired()])
+	submit=SubmitField('查询')

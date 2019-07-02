@@ -131,7 +131,8 @@ def allowed_file(filename):
 def insert_soilplots(sheet,workbook):
 	nrows=sheet.nrows
 	count=0
-	try:
+	#try:
+	while True:
 		for i in range(1,nrows):
 			row_values=sheet.row_values(i)
 			plot=Soilplot.query.filter_by(plotname=row_values[0].strip(' ')).first()
@@ -155,8 +156,8 @@ def insert_soilplots(sheet,workbook):
 				count=count+1
 		db.session.commit()
 		return count
-	except:
-		return -1
+	#except:
+	#	return -1
 
 @bp.route('/data',methods=['GET','POST'])
 @login_required

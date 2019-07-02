@@ -1,0 +1,90 @@
+<table class="panel-heading" style="width:100%;">
+	<tr>
+		<td style="text-align:left; padding-left:15px;">
+			<h4>数据面板</h4>
+		</td>
+		<td style="text-align:right; padding-right:15px;">
+		</td>
+	</tr>
+</table>
+<table class="table">
+	<tr>
+		<th scope="col" style="padding-left:15px;">序号</th>
+		<th scope="col">监测时间</th>
+		<th scope="col">温度</th>
+		<th scope="col">PH</th>
+		<th scope="col">氧化还原电位</th>
+		<th scope="col">电导率</th>
+		<th scope="col">盐度</th>
+		<th scope="col">深度</th>
+		<th scope="col">浊度</th>
+		<th scope="col">溶解氧</th>
+	<tr>
+	{% for data in datas %}
+	<tr scope="row">
+		<td style="padding-left:15px;">
+			<span>{{ loop.index }}</span>
+		</td>
+		<td>
+			<span>{{ data[0] }}</span>
+		</td>
+		<td>
+			<span>
+				{% if data[1] or data[1]==0 %}
+				{{ data[1] }}
+				{% endif %}
+			</span>
+		</td>
+		<td>
+			<span id="no2">
+				{% if data[2] or data[2]==0 %}
+				{{ data[2] }}
+				{% endif %}
+			</span>
+		</td>
+		<td>
+			<span id="co">
+				{% if data[3] or data[3]==0 %}
+				{{ data[3] }}
+				{% endif %}
+			</span>
+		</td>
+		<td>
+			<span id="so2">
+				{% if data[4] or data[4]==0 %}
+				{{ data[4] }}
+				{% endif %}
+			</span>
+		</td>
+		<td>
+			<span id="o3">
+				{% if data[5] or data[5]==0 %}
+				{{ data[5] }}
+				{% endif %}
+			</span>
+		</td>
+		<td>
+			<span id="pm10">
+				{% if data[6] or data[6]==0 %}
+				{{ data[6] }}
+				{% endif %}
+			</span>
+		</td>
+		<td>
+			<span id="pm25">
+				{% if data[7] or data[7]==0 %}
+				{{ data[7] }}
+				{% endif %}
+			</span>
+		</td>
+		<td>
+			<span>
+				{% if data[8] or data[8]==0 %}
+				{{ data[8] }}
+				{% endif %}
+			</span>
+			
+                </td>
+	</tr>
+	{% endfor %}
+</table>

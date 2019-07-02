@@ -2,12 +2,13 @@ import os
 from flask import render_template, flash, redirect, url_for, request, current_app, send_file, send_from_directory
 from app import db
 from app.models import Watershed,Waterplot,Waterindicator,Waterdata
-from app.water.forms import WaterdataqueryForm
+from app.water.forms import WaterdataqueryForm,WaterrealdataqueryForm
 from werkzeug.urls import url_parse
 from werkzeug import secure_filename
 import xlrd
 import re
-from datetime import date,datetime
+import pymssql
+from datetime import date,datetime,timedelta
 from app.water import bp
 from flask_login import current_user,login_required
 
@@ -285,6 +286,55 @@ def data():
 				flash('出错：请上传规范格式的文件，具体请参考模板。')
 	return render_template('water/data.html',title="水质调查数据管理",form=form,datas=datas,indicators=indicators,plots=plots,timestrs=timestrs,tides=tides)
 
+@bp.route('/realdata',methods=['GET','POST'])
+@login_required
+def realdata():
+	if not current_user.check_roles(['admin','water']):
+		flash('您无权访问该页面')
+		return redirect(url_for('main.index'))
+	server='dnuedatabase1.sqlserver.rds.aliyuncs.com:3433'
+	user='webuser'
+	password='WebUser#2015'
+	database='nbwater_iot'
+	conn=pymssql.connect(server,user,password,database)
+	cursor=conn.cursor()
+	form=WaterrealdataqueryForm()
+	form.plots.choices=[]
+	cursor.execute('select id,plotname from plot')
+	row=cursor.fetchone()
+	while row:
+		form.plots.choices.append((row[0],row[1]))
+		row=cursor.fetchone()
+	conn.close()
+	time1=datetime.now()
+	time0=time1+timedelta(days=-1)
+	timestartstr=time0.strftime('%Y-%m-%d %H:%M:%S')
+	timeendstr=time1.strftime('%Y-%m-%d %H:%M:%S')
+	datas=[]
+	if request.method=='POST':
+		if form.timestart.data.strip()!='':
+			timestartstr=form.timestart.data
+		if form.timeend.data.strip()!='':
+			timeendstr=form.timeend.data
+		if form.plots.data:
+			plotid=form.plots.data
+			try:
+				timestart=datetime.strptime(timestartstr,'%Y-%m-%d %H:%M:%S')
+				timeend=datetime.strptime(timeendstr,'%Y-%m-%d %H:%M:%S')
+				conn=pymssql.connect(server,user,password,database)
+				cursor=conn.cursor()
+				cursor.execute("select dt,temp,ph,ORP,spCond,sal,depth,turbidity,LDO from data where dt>='{}' and dt<='{}' order by dt".format(timestartstr,timeendstr))
+				row=cursor.fetchone()
+				while row:
+					datas.append((row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8]))
+					row=cursor.fetchone()
+			finally:
+				conn.close()
+	else:
+		form.timestart.data=timestartstr
+		form.timeend.data=timeendstr
+	return render_template('water/realdata.html',title='水环境物联网监测数据',form=form,datas=datas)
+
 @bp.route('/download_dataexample', methods=['GET'])
 @login_required
 def download_dataexample():
@@ -366,5 +416,4 @@ def insert_waterdatas(sheet,workbook):
 					db.session.add(data)
 					newcount=newcount+1
 	return [1,newcount,existcount]
-
 
