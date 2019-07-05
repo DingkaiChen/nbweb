@@ -13,6 +13,7 @@ class ForestplotForm(FlaskForm):
 	lonminute=IntegerField('分',validators=[DataRequired()])
 	lonsecond=FloatField('秒',validators=[InputRequired()])
 	altitude=IntegerField('高程')
+	imgurl=StringField('图片')
 	submit=SubmitField('提交')
 
 class ArbortypeForm(FlaskForm):

@@ -5,6 +5,7 @@
 			<th scope="col">经度</th>
 			<th scope="col">纬度</th>
 			<th scope="col">高程</th>
+			<th scope="col">图片</th>
 			<th scope="col">乔木数</th>
 			<th scope="col">样方数</th>
 			<th scope="col">操作</th>
@@ -16,6 +17,13 @@
 			<td><span id="londegree">{{ splot[0].londegree }}</span>°<span id="lonminute">{{ splot[0].lonminute }}</span>'<span id="lonsecond">{{ splot[0].lonsecond }}</span>"</td>
 			<td><span id="latdegree">{{ splot[0].latdegree }}</span>°<span id="latminute">{{ splot[0].latminute }}</span>'<span id="latsecond">{{ splot[0].latsecond }}</span>"</td>
 			<td><span id="altitude">{{ splot[0].altitude }}</span></td>
+			<td>
+				{% if splot[0].imgurl!="#" and splot[0].imgurl!="" %}
+				<a id='imgurl' href="#" data-toggle="modal" data-target="#imgModal" data-whatever="{{ splot[0].imgurl }}">查看</a>
+				{% else %}
+				<span id='imgurl' data-whatever="{{ splot[0].imgurl }}">查看</span>
+				{% endif %}
+			</td>
 			<td><a href="arbor/{{ splot[0].id }}">{{ splot[1] }}</a></td>
 			<td><a href="herb?plotid={{ splot[0].id }}">{{ splot[2] }}</a></td>
 			<td><a class="edit" href="#form" >编辑</a> | <a class="del" href="#" data-toggle="modal" data-target="#myModal" data-whatever="{{ splot[0].plotname }}">删除</a></td>

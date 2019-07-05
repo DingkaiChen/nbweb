@@ -200,6 +200,7 @@ class Forestplot(db.Model):
 	lonminute=db.Column(db.Integer)
 	lonsecond=db.Column(db.Float)
 	altitude=db.Column(db.Integer)
+	imgurl=db.Column(db.String(120))
 	arbors=db.relationship('Arbor',backref='plot',lazy='dynamic')
 	quadrats=db.relationship('Herbquadrat',backref='plot',lazy='dynamic')
 

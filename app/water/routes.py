@@ -323,7 +323,7 @@ def realdata():
 				timeend=datetime.strptime(timeendstr,'%Y-%m-%d %H:%M:%S')
 				conn=pymssql.connect(server,user,password,database)
 				cursor=conn.cursor()
-				cursor.execute("select dt,temp,ph,ORP,spCond,sal,depth,turbidity,LDO from data where dt>='{}' and dt<='{}' order by dt".format(timestartstr,timeendstr))
+				cursor.execute("select dt,temp,ph,ORP,spCond,sal,depth,turbidity,LDO from data where dt>='{}' and dt<='{}' and plot_id={} order by dt".format(timestartstr,timeendstr,plotid))
 				row=cursor.fetchone()
 				while row:
 					datas.append((row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8]))

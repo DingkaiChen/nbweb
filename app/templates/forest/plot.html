@@ -23,6 +23,18 @@
 			</div>
 		</div>
 	</div>
+	<div class="modal fade" id="imgModal" tabindex="-2" role="dialog" aria-labelledby="imgModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<a class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></a>
+				</div>
+				<div class="modal-body">
+					<img id="showimg" style="width:100%;" src="">
+				</div>
+			</div>
+		</div>
+	</div>
 	<div name="form" id="pnl-form" class="panel panel-default" style="display:none">
 		<div class="panel-heading"></div>
 		<div class="panel-body">
@@ -79,6 +91,19 @@
 				{% endfor %}
 			</p>
 			<p>
+				{{ form.imgurl.label }}
+				<input type="file" id="file1" name="file1"/>
+				<input type="button" id="btn-upload" value="上传"/>
+				<br>
+				<img id="img1" alt="尚未加载图片" src=""/>
+				<br>
+				{{ form.imgurl }}
+				{% for error in form.imgurl.errors %}
+				<span class='error-info' style="color:red;">[{{ error }}]</span>
+				{% endfor %}
+			</p>
+
+			<p>
 				{{ form.submit() }}  <input id="btn-cancel" type="button" value="取消"/>
 			</p>
 		</form>
@@ -89,5 +114,6 @@
 {% block scripts %}
 	{{ super() }}
 	
-	<script type=text/javascript src="{{ url_for('static',filename='forest/plot.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static',filename='ajaxfileupload.js')}}"></script>
+	<script type="text/javascript" src="{{ url_for('static',filename='forest/plot.js') }}"></script>
 {% endblock %}

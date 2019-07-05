@@ -31,7 +31,8 @@ def plot():
 				londegree=form.londegree.data,\
 				lonminute=form.lonminute.data,\
 				lonsecond=form.lonsecond.data,\
-				altitude=form.altitude.data)
+				altitude=form.altitude.data,\
+				imgurl=form.imgurl.data)
 			db.session.add(plot)
 			db.session.commit()
 			flash('植被调查样地添加成功！')
@@ -46,6 +47,7 @@ def plot():
 				plot.lonminute=form.lonminute.data
 				plot.lonsecond=form.lonsecond.data
 				plot.altitude=form.altitude.data
+				plot.imgurl=form.imgurl.data
 				db.session.commit()
 				flash('样地 "{}" 编辑成功！'.format(form.plotname.data))
 			else:
@@ -57,7 +59,7 @@ def plot():
 		quadrats_count=len(plot.quadrats.all())
 		splots.append([plot,arbors_count,quadrats_count])
 	return render_template('forest/plot.html',title='植被调查样地信息',plots=splots, form=form)
-
+		
 @bp.route("/delplot",methods=["POST"])
 @login_required
 def delplot():
