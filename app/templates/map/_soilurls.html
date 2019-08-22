@@ -1,0 +1,30 @@
+<table class="panel-heading" style="width:100%;">
+	<tr>
+		<td style="text-align:left; padding-left:15px;">
+			<h4>数据面板</h4>
+		</td>
+		<td style="text-align:right; padding-right:15px;">
+			<a class="btn btn-primary" style="height:24px; vertical-align:center; padding-top:0; padding-bottom:0;" id='btn-add' href="#" data-toggle="modal" data-target="#editModal" >添加</a>
+		</td>
+	</tr>
+</table>
+<table class="table">
+	<tr>
+		<th scope="col">序号</th>
+		<th scope="col">年份</th>
+		<th scope="col">区域</th>
+		<th scope="col">指标</th>
+		<th scope="col">图层链接地址</th>
+		<th scope="col">操作</th>
+	</tr>
+	{% for shp in shps %}
+	<tr scope="row">
+		<td style="padding-left:15px;">{{ loop.index }}</td>
+		<td><span id="shpid" style="display:none;">{{ shp.id }}</span><span id="year">{{ shp.year }}</span></td>
+		<td><span id="region">{{ shp.region }}</span></td>
+		<td><span id="indicator">{{ shp.indicator.indicatorname }}</span></td>
+		<td><span id="shpurl">{{ shp.shpurl }}</span></td>
+		<td><a class="edit" href="#"  data-toggle="modal" data-target="#editModal" >编辑</a> | <a class="del" href="#" data-toggle="modal" data-target="#delModal" >删除</a></td>
+	</tr>
+	{% endfor %}
+</table>

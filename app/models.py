@@ -304,6 +304,7 @@ class Soilindicator(db.Model):
 	aland_standard_ph3=db.Column(db.Float)
 	aland_standard_ph4=db.Column(db.Float)
 	soildatas=db.relationship('Soildata',backref='indicator',lazy='dynamic')
+	soilshps=db.relationship('Soilshp',backref='indicator',lazy='dynamic')
 
 	def __repr__(self):
 		return '<Soilindicator {}>'.format(self.indicatorname)
@@ -315,6 +316,13 @@ class Soildata(db.Model):
 	value=db.Column(db.Float)
 	indicator_id=db.Column(db.Integer, db.ForeignKey('soilindicator.id'))
 	soilplot_id=db.Column(db.Integer, db.ForeignKey('soilplot.id'))
+
+class Soilshp(db.Model):
+	id=db.Column(db.Integer,primary_key=True)
+	year=db.Column(db.Integer)
+	region=db.Column(db.String(50))
+	shpurl=db.Column(db.String(586))
+	indicator_id=db.Column(db.Integer,db.ForeignKey('soilindicator.id'))
 
 class Societyclass(db.Model):
 	id=db.Column(db.Integer,primary_key=True)
@@ -333,5 +341,4 @@ class Societydata(db.Model):
 	timestamp=db.Column(db.DateTime, default=datetime.utcnow)
 	value=db.Column(db.Float)
 	year=db.Column(db.Integer)
-	indicator_id=db.Column(db.Integer, db.ForeignKey('societyindicator.id'))
-	
+	indicator_id=db.Column(db.Integer, db.ForeignKey('societyindicator.id'))	

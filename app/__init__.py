@@ -49,7 +49,7 @@ def create_app(config_class=Config):
 	app.register_blueprint(society_bp,url_prefix='/society')
 
 	from app.map import bp as map_bp
-	app.register_blueprint(map_bp)
+	app.register_blueprint(map_bp,url_prefix='/map')
 		
 	return app
 	
